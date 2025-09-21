@@ -22,7 +22,7 @@ export function Hero() {
         <div className="max-w-4xl mx-auto">
           {/* Logo grande y centrado con efecto de entrada */}
           <div className="mb-8 animate-fade-in-up">
-            <div className="relative inline-block">
+            <div className="relative inline-block bg-white/90 rounded-full p-2">
               <Image
                 src="/images/elbienestardetuvidalogo.png"
                 alt="El Bienestar de tu Vida"
@@ -50,8 +50,7 @@ export function Hero() {
             className="text-xl md:text-2xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed animate-fade-in-up"
             style={{ animationDelay: "0.4s" }}
           >
-            En El Bienestar de tu Vida encontrás los productos más frescos y de mejor calidad. Somos una joven pareja
-            comprometida con tu salud y bienestar.
+            En El Bienestar de tu Vida encontrás los productos más frescos y de mejor calidad. Estamos ubicados en San José de la Dormida, Córdoba.
           </p>
 
           {/* Botones principales mejorados */}
