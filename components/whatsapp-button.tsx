@@ -17,7 +17,7 @@ export function WhatsAppButton() {
       className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white rounded-full w-16 h-16 shadow-2xl z-40 animate-pulse hover:animate-none transition-all duration-600"
       size="icon"
     >
-      <Image src="/images/whatsappvida.png" alt="WhatsApp" width={24} height={24} />
+      <Image src="/whatsappvida.png" alt="WhatsApp" width={24} height={24} />
     </Button>
   )
 }
