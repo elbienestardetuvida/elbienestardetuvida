@@ -66,7 +66,7 @@ export function OrderPreparation() {
   const IconComponent = currentStepData.icon
 
   return (
-    <section className="py-16 px-4">
+    <section className="py-16">
       <div className="container mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">🕒 Preparamos tu Pedido</h2>
