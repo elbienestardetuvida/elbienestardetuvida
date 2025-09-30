@@ -15,14 +15,14 @@ export function Header() {
 
   return (
     <header className="glass-header sticky top-0 z-50 bg-black/20 backdrop-blur-lg">
-      <div className="container mx-auto px-4 pb-4">
+      <div className="container mx-auto px-4 py-2">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center space-x-2">
             <Image
               src="/images/logo.png"
               alt="El Bienestar de tu Vida"
-              width={45}
-              height={45}
+              width={60}
+              height={60}
               className="rounded-full"
             />
             <div className="hidden sm:block">
