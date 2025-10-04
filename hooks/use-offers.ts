@@ -112,11 +112,14 @@ export function useOffers() {
 
   // Efecto para verificar ofertas periódicamente
   useEffect(() => {
-    // Verificar inmediatamente
-    checkForOffer()
+    // Verificar inmediatamente solo si ya hay comportamiento suficiente
+    const behavior = OffersManager.getUserBehavior()
+    if (behavior.tiempoNavegacion >= 60 || behavior.interacciones >= 5) {
+      checkForOffer()
+    }
 
-    // Verificar cada 30 segundos (más agresivo para testing)
-    const interval = setInterval(checkForOffer, 30000)
+    // Verificar cada 2 minutos (menos agresivo)
+    const interval = setInterval(checkForOffer, 120000)
 
     return () => clearInterval(interval)
   }, [checkForOffer])

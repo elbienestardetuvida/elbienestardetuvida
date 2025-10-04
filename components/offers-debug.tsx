@@ -30,29 +30,35 @@ export function OffersDebug() {
       case 'primera_visita':
         OffersManager.updateUserBehavior({
           esPrimeraVisita: true,
-          paginasVisitadas: ['/'],
-          seccionesExploradas: ['recetas', 'ofertas']
+          tiempoNavegacion: 200, // 3+ minutos
+          paginasVisitadas: ['/', '/recetas'],
+          seccionesExploradas: ['recetas'],
+          interacciones: 10
         })
         break
       case 'tiempo':
         OffersManager.updateUserBehavior({
-          tiempoNavegacion: 200, // 3+ minutos
-          paginasVisitadas: ['/', '/recetas']
+          tiempoNavegacion: 500, // 8+ minutos
+          paginasVisitadas: ['/', '/recetas', '/ofertas'],
+          seccionesExploradas: ['recetas', 'ofertas'],
+          interacciones: 20
         })
         break
       case 'interacciones':
         OffersManager.updateUserBehavior({
-          interacciones: 5,
+          interacciones: 25,
+          tiempoNavegacion: 300,
           paginasVisitadas: ['/', '/recetas', '/ofertas'],
-          seccionesExploradas: ['frutas']
+          seccionesExploradas: ['frutas', 'recetas']
         })
         break
       case 'comportamiento':
         OffersManager.updateUserBehavior({
           esPrimeraVisita: false,
-          tiempoNavegacion: 400,
-          paginasVisitadas: ['/', '/ofertas', '/recetas'],
-          seccionesExploradas: ['ofertas', 'recetas']
+          tiempoNavegacion: 700, // 11+ minutos
+          paginasVisitadas: ['/', '/ofertas', '/recetas', '/recetas/[slug]'],
+          seccionesExploradas: ['ofertas', 'recetas', 'frutas'],
+          interacciones: 30
         })
         break
     }
@@ -101,11 +107,36 @@ export function OffersDebug() {
         <CardContent className="space-y-3">
           {/* Estado actual */}
           <div className="text-xs space-y-1">
-            <div><strong>Tiempo:</strong> {behavior.tiempoNavegacion}s</div>
+            <div><strong>Tiempo:</strong> {behavior.tiempoNavegacion}s ({Math.floor(behavior.tiempoNavegacion/60)}min)</div>
             <div><strong>Páginas:</strong> {behavior.paginasVisitadas.length}</div>
             <div><strong>Interacciones:</strong> {behavior.interacciones}</div>
             <div><strong>Primera visita:</strong> {behavior.esPrimeraVisita ? 'Sí' : 'No'}</div>
             <div><strong>Secciones:</strong> {behavior.seccionesExploradas.join(', ') || 'Ninguna'}</div>
+          </div>
+
+          {/* Progreso hacia ofertas */}
+          <div className="text-xs space-y-1">
+            <div className="font-semibold">Progreso hacia ofertas:</div>
+            <div className="space-y-1">
+              <div className="flex justify-between">
+                <span>POLLO13:</span>
+                <span className={behavior.esPrimeraVisita && behavior.tiempoNavegacion >= 180 && behavior.interacciones >= 8 ? 'text-green-600' : 'text-gray-500'}>
+                  {behavior.esPrimeraVisita && behavior.tiempoNavegacion >= 180 && behavior.interacciones >= 8 ? '✅ Listo' : '⏳ Falta'}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span>FRUTA12:</span>
+                <span className={behavior.paginasVisitadas.includes('/recetas') && behavior.interacciones >= 15 && behavior.tiempoNavegacion >= 180 ? 'text-green-600' : 'text-gray-500'}>
+                  {behavior.paginasVisitadas.includes('/recetas') && behavior.interacciones >= 15 && behavior.tiempoNavegacion >= 180 ? '✅ Listo' : '⏳ Falta'}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span>CARNE15:</span>
+                <span className={behavior.paginasVisitadas.includes('/ofertas') && behavior.tiempoNavegacion >= 180 && behavior.interacciones >= 15 ? 'text-green-600' : 'text-gray-500'}>
+                  {behavior.paginasVisitadas.includes('/ofertas') && behavior.tiempoNavegacion >= 180 && behavior.interacciones >= 15 ? '✅ Listo' : '⏳ Falta'}
+                </span>
+              </div>
+            </div>
           </div>
 
           {/* Códigos mostrados */}

@@ -51,9 +51,9 @@ export const OFERTAS: Oferta[] = [
     mensaje: '¡Carnes frescas te esperan!',
     descripcion: '15% OFF en tu próxima compra de carnes',
     trigger: {
-      tipo: 'tiempo',
-      valor: 60, // 1 minuto para testing
-      condiciones: []
+      tipo: 'comportamiento',
+      valor: 1,
+      condiciones: ['ofertas', 'tiempo_minimo', 'interacciones_minimas']
     },
     validaHasta: 7,
     icono: '🥩'
@@ -66,9 +66,9 @@ export const OFERTAS: Oferta[] = [
     mensaje: '¡Dulce recompensa!',
     descripcion: '12% OFF en frutas frescas de temporada',
     trigger: {
-      tipo: 'interacciones',
-      valor: 2, // Reducido para testing
-      condiciones: []
+      tipo: 'comportamiento',
+      valor: 1,
+      condiciones: ['recetas', 'interacciones_minimas', 'tiempo_minimo']
     },
     validaHasta: 7,
     icono: '🍎'
@@ -81,9 +81,9 @@ export const OFERTAS: Oferta[] = [
     mensaje: '¡Verde que te quiero verde!',
     descripcion: '10% OFF en verduras frescas',
     trigger: {
-      tipo: 'tiempo',
-      valor: 120, // 2 minutos para testing
-      condiciones: []
+      tipo: 'comportamiento',
+      valor: 1,
+      condiciones: ['tiempo_extendido', 'multiple_secciones', 'interacciones_minimas']
     },
     validaHasta: 7,
     icono: '🥬'
@@ -96,9 +96,9 @@ export const OFERTAS: Oferta[] = [
     mensaje: '¡Vuelo directo al ahorro!',
     descripcion: '13% OFF en pollo y aves',
     trigger: {
-      tipo: 'primera_visita',
+      tipo: 'comportamiento',
       valor: 1,
-      condiciones: []
+      condiciones: ['primera_visita', 'tiempo_minimo', 'exploracion_basica']
     },
     validaHasta: 7,
     icono: '🐔'
@@ -111,9 +111,9 @@ export const OFERTAS: Oferta[] = [
     mensaje: '¡Para toda la familia!',
     descripcion: '14% OFF en compras mayores a $5000',
     trigger: {
-      tipo: 'tiempo',
-      valor: 180, // 3 minutos para testing
-      condiciones: []
+      tipo: 'comportamiento',
+      valor: 1,
+      condiciones: ['visitante_recurrente', 'tiempo_extendido', 'exploracion_completa']
     },
     validaHasta: 7,
     icono: '👨‍👩‍👧‍👦'
@@ -225,13 +225,22 @@ export class OffersManager {
         case 'frutas':
           return behavior.seccionesExploradas.includes('frutas')
         case 'tiempo_minimo':
-          return behavior.tiempoNavegacion >= 120 // 2 minutos
+          return behavior.tiempoNavegacion >= 180 // 3 minutos mínimo
         case 'tiempo_extendido':
-          return behavior.tiempoNavegacion >= 300 // 5 minutos
+          return behavior.tiempoNavegacion >= 480 // 8 minutos
+        case 'interacciones_minimas':
+          return behavior.interacciones >= 15 // Al menos 15 interacciones
         case 'multiple_secciones':
-          return behavior.seccionesExploradas.length >= 2
+          return behavior.seccionesExploradas.length >= 3 // Al menos 3 secciones
         case 'visitante_recurrente':
           return !behavior.esPrimeraVisita
+        case 'exploracion_basica':
+          return behavior.paginasVisitadas.length >= 2 && behavior.interacciones >= 8
+        case 'exploracion_completa':
+          return behavior.paginasVisitadas.length >= 4 && 
+                 behavior.seccionesExploradas.length >= 3 && 
+                 behavior.interacciones >= 25 &&
+                 behavior.tiempoNavegacion >= 600 // 10 minutos
         default:
           return true
       }
