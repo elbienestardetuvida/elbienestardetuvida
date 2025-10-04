@@ -30,24 +30,24 @@ export function OffersDebug() {
       case 'primera_visita':
         OffersManager.updateUserBehavior({
           esPrimeraVisita: true,
-          tiempoNavegacion: 200, // 3+ minutos
+          tiempoNavegacion: 150, // 2.5 minutos
           paginasVisitadas: ['/', '/recetas'],
           seccionesExploradas: ['recetas'],
-          interacciones: 10
+          interacciones: 8
         })
         break
       case 'tiempo':
         OffersManager.updateUserBehavior({
-          tiempoNavegacion: 500, // 8+ minutos
+          tiempoNavegacion: 400, // 6+ minutos
           paginasVisitadas: ['/', '/recetas', '/ofertas'],
           seccionesExploradas: ['recetas', 'ofertas'],
-          interacciones: 20
+          interacciones: 15
         })
         break
       case 'interacciones':
         OffersManager.updateUserBehavior({
-          interacciones: 25,
-          tiempoNavegacion: 300,
+          interacciones: 12,
+          tiempoNavegacion: 180,
           paginasVisitadas: ['/', '/recetas', '/ofertas'],
           seccionesExploradas: ['frutas', 'recetas']
         })
@@ -55,10 +55,10 @@ export function OffersDebug() {
       case 'comportamiento':
         OffersManager.updateUserBehavior({
           esPrimeraVisita: false,
-          tiempoNavegacion: 700, // 11+ minutos
+          tiempoNavegacion: 500, // 8+ minutos
           paginasVisitadas: ['/', '/ofertas', '/recetas', '/recetas/[slug]'],
           seccionesExploradas: ['ofertas', 'recetas', 'frutas'],
-          interacciones: 30
+          interacciones: 20
         })
         break
     }
@@ -120,20 +120,26 @@ export function OffersDebug() {
             <div className="space-y-1">
               <div className="flex justify-between">
                 <span>POLLO13:</span>
-                <span className={behavior.esPrimeraVisita && behavior.tiempoNavegacion >= 180 && behavior.interacciones >= 8 ? 'text-green-600' : 'text-gray-500'}>
-                  {behavior.esPrimeraVisita && behavior.tiempoNavegacion >= 180 && behavior.interacciones >= 8 ? '✅ Listo' : '⏳ Falta'}
+                <span className={behavior.esPrimeraVisita && behavior.tiempoNavegacion >= 120 && behavior.interacciones >= 5 ? 'text-green-600' : 'text-gray-500'}>
+                  {behavior.esPrimeraVisita && behavior.tiempoNavegacion >= 120 && behavior.interacciones >= 5 ? '✅ Listo' : '⏳ Falta'}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span>FRUTA12:</span>
-                <span className={behavior.paginasVisitadas.includes('/recetas') && behavior.interacciones >= 15 && behavior.tiempoNavegacion >= 180 ? 'text-green-600' : 'text-gray-500'}>
-                  {behavior.paginasVisitadas.includes('/recetas') && behavior.interacciones >= 15 && behavior.tiempoNavegacion >= 180 ? '✅ Listo' : '⏳ Falta'}
+                <span className={behavior.paginasVisitadas.includes('/recetas') && behavior.interacciones >= 8 && behavior.tiempoNavegacion >= 120 ? 'text-green-600' : 'text-gray-500'}>
+                  {behavior.paginasVisitadas.includes('/recetas') && behavior.interacciones >= 8 && behavior.tiempoNavegacion >= 120 ? '✅ Listo' : '⏳ Falta'}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span>CARNE15:</span>
-                <span className={behavior.paginasVisitadas.includes('/ofertas') && behavior.tiempoNavegacion >= 180 && behavior.interacciones >= 15 ? 'text-green-600' : 'text-gray-500'}>
-                  {behavior.paginasVisitadas.includes('/ofertas') && behavior.tiempoNavegacion >= 180 && behavior.interacciones >= 15 ? '✅ Listo' : '⏳ Falta'}
+                <span className={behavior.paginasVisitadas.includes('/ofertas') && behavior.tiempoNavegacion >= 120 && behavior.interacciones >= 8 ? 'text-green-600' : 'text-gray-500'}>
+                  {behavior.paginasVisitadas.includes('/ofertas') && behavior.tiempoNavegacion >= 120 && behavior.interacciones >= 8 ? '✅ Listo' : '⏳ Falta'}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span>Fallback:</span>
+                <span className={behavior.tiempoNavegacion >= 300 ? 'text-yellow-600' : 'text-gray-500'}>
+                  {behavior.tiempoNavegacion >= 300 ? '🚨 Activo' : '⏳ Esperando'}
                 </span>
               </div>
             </div>

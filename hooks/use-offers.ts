@@ -94,19 +94,36 @@ export function useOffers() {
 
   // Efecto para detectar interacciones
   useEffect(() => {
+    let scrollTimeout: NodeJS.Timeout
+
     const handleInteraction = () => {
       updateBehavior(prev => ({
         interacciones: prev.interacciones + 1
       }))
     }
 
-    // Escuchar clicks, scrolls, etc.
+    const handleScroll = () => {
+      // Solo contar scroll cada 2 segundos para evitar spam
+      clearTimeout(scrollTimeout)
+      scrollTimeout = setTimeout(() => {
+        updateBehavior(prev => ({
+          interacciones: prev.interacciones + 1
+        }))
+      }, 2000)
+    }
+
+    // Escuchar clicks, scrolls, toques, etc.
     document.addEventListener('click', handleInteraction)
-    document.addEventListener('scroll', handleInteraction, { passive: true })
+    document.addEventListener('scroll', handleScroll, { passive: true })
+    document.addEventListener('touchstart', handleInteraction, { passive: true })
+    document.addEventListener('keydown', handleInteraction)
 
     return () => {
       document.removeEventListener('click', handleInteraction)
-      document.removeEventListener('scroll', handleInteraction)
+      document.removeEventListener('scroll', handleScroll)
+      document.removeEventListener('touchstart', handleInteraction)
+      document.removeEventListener('keydown', handleInteraction)
+      clearTimeout(scrollTimeout)
     }
   }, [updateBehavior])
 
@@ -114,12 +131,12 @@ export function useOffers() {
   useEffect(() => {
     // Verificar inmediatamente solo si ya hay comportamiento suficiente
     const behavior = OffersManager.getUserBehavior()
-    if (behavior.tiempoNavegacion >= 60 || behavior.interacciones >= 5) {
+    if (behavior.tiempoNavegacion >= 60 || behavior.interacciones >= 3) {
       checkForOffer()
     }
 
-    // Verificar cada 2 minutos (menos agresivo)
-    const interval = setInterval(checkForOffer, 120000)
+    // Verificar cada 60 segundos (más agresivo)
+    const interval = setInterval(checkForOffer, 60000)
 
     return () => clearInterval(interval)
   }, [checkForOffer])

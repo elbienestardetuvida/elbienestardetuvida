@@ -225,22 +225,22 @@ export class OffersManager {
         case 'frutas':
           return behavior.seccionesExploradas.includes('frutas')
         case 'tiempo_minimo':
-          return behavior.tiempoNavegacion >= 180 // 3 minutos mínimo
+          return behavior.tiempoNavegacion >= 120 // 2 minutos mínimo (más realista)
         case 'tiempo_extendido':
-          return behavior.tiempoNavegacion >= 480 // 8 minutos
+          return behavior.tiempoNavegacion >= 300 // 5 minutos (más realista)
         case 'interacciones_minimas':
-          return behavior.interacciones >= 15 // Al menos 15 interacciones
+          return behavior.interacciones >= 8 // Al menos 8 interacciones (más realista)
         case 'multiple_secciones':
-          return behavior.seccionesExploradas.length >= 3 // Al menos 3 secciones
+          return behavior.seccionesExploradas.length >= 2 // Al menos 2 secciones (más realista)
         case 'visitante_recurrente':
           return !behavior.esPrimeraVisita
         case 'exploracion_basica':
-          return behavior.paginasVisitadas.length >= 2 && behavior.interacciones >= 8
+          return behavior.paginasVisitadas.length >= 2 && behavior.interacciones >= 5
         case 'exploracion_completa':
-          return behavior.paginasVisitadas.length >= 4 && 
-                 behavior.seccionesExploradas.length >= 3 && 
-                 behavior.interacciones >= 25 &&
-                 behavior.tiempoNavegacion >= 600 // 10 minutos
+          return behavior.paginasVisitadas.length >= 3 && 
+                 behavior.seccionesExploradas.length >= 2 && 
+                 behavior.interacciones >= 15 &&
+                 behavior.tiempoNavegacion >= 360 // 6 minutos (más realista)
         default:
           return true
       }
@@ -250,15 +250,40 @@ export class OffersManager {
   // Obtener oferta elegible
   static getEligibleOffer(): Oferta | null {
     const behavior = this.getUserBehavior()
+    const shownOffers = this.getShownOffers()
+    
+    // Si ya se mostraron todas las ofertas, no mostrar más
+    if (shownOffers.length >= OFERTAS.length) return null
+    
     const eligibleOffers = OFERTAS.filter(oferta => 
       this.shouldShowOffer(oferta, behavior)
     )
 
-    if (eligibleOffers.length === 0) return null
+    // Si hay ofertas elegibles, seleccionar una aleatoria
+    if (eligibleOffers.length > 0) {
+      const randomIndex = Math.floor(Math.random() * eligibleOffers.length)
+      return eligibleOffers[randomIndex]
+    }
 
-    // Seleccionar oferta aleatoria de las elegibles
-    const randomIndex = Math.floor(Math.random() * eligibleOffers.length)
-    return eligibleOffers[randomIndex]
+    // Fallback: Si el usuario navegó mucho tiempo sin oferta, dar una básica
+    if (behavior.tiempoNavegacion >= 300 && shownOffers.length === 0) { // 5 minutos sin oferta
+      // Buscar oferta que no se haya mostrado
+      const availableOffers = OFERTAS.filter(oferta => !shownOffers.includes(oferta.codigo))
+      if (availableOffers.length > 0) {
+        return availableOffers[0] // Devolver la primera disponible
+      }
+    }
+
+    // Fallback más agresivo: Después de 8 minutos, mostrar cualquier oferta disponible
+    if (behavior.tiempoNavegacion >= 480 && shownOffers.length < OFERTAS.length) {
+      const availableOffers = OFERTAS.filter(oferta => !shownOffers.includes(oferta.codigo))
+      if (availableOffers.length > 0) {
+        const randomIndex = Math.floor(Math.random() * availableOffers.length)
+        return availableOffers[randomIndex]
+      }
+    }
+
+    return null
   }
 
   // Obtener oferta elegible con código único
