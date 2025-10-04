@@ -29,7 +29,7 @@ export default function RootLayout({
           <CartProvider>
             {children}
             <OffersSystem />
-            <OffersDebug />
+            {/* <OffersDebug /> */}
           </CartProvider>
         </ToastProvider>
       </body>
