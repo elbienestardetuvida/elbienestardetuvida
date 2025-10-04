@@ -115,8 +115,8 @@ export function useOffers() {
     // Verificar inmediatamente
     checkForOffer()
 
-    // Verificar cada 2 minutos
-    const interval = setInterval(checkForOffer, 120000)
+    // Verificar cada 30 segundos (más agresivo para testing)
+    const interval = setInterval(checkForOffer, 30000)
 
     return () => clearInterval(interval)
   }, [checkForOffer])

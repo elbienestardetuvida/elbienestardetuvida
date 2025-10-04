@@ -42,9 +42,9 @@ export const OFERTAS: Oferta[] = [
     mensaje: '¡Carnes frescas te esperan!',
     descripcion: '15% OFF en tu próxima compra de carnes',
     trigger: {
-      tipo: 'comportamiento',
-      valor: 1,
-      condiciones: ['ofertas', 'tiempo_minimo']
+      tipo: 'tiempo',
+      valor: 60, // 1 minuto para testing
+      condiciones: []
     },
     validaHasta: 7,
     icono: '🥩'
@@ -58,8 +58,8 @@ export const OFERTAS: Oferta[] = [
     descripcion: '12% OFF en frutas frescas de temporada',
     trigger: {
       tipo: 'interacciones',
-      valor: 3,
-      condiciones: ['recetas', 'frutas']
+      valor: 2, // Reducido para testing
+      condiciones: []
     },
     validaHasta: 7,
     icono: '🍎'
@@ -73,8 +73,8 @@ export const OFERTAS: Oferta[] = [
     descripcion: '10% OFF en verduras frescas',
     trigger: {
       tipo: 'tiempo',
-      valor: 180, // 3 minutos
-      condiciones: ['recetas']
+      valor: 120, // 2 minutos para testing
+      condiciones: []
     },
     validaHasta: 7,
     icono: '🥬'
@@ -89,7 +89,7 @@ export const OFERTAS: Oferta[] = [
     trigger: {
       tipo: 'primera_visita',
       valor: 1,
-      condiciones: ['multiple_secciones']
+      condiciones: []
     },
     validaHasta: 7,
     icono: '🐔'
@@ -102,9 +102,9 @@ export const OFERTAS: Oferta[] = [
     mensaje: '¡Para toda la familia!',
     descripcion: '14% OFF en compras mayores a $5000',
     trigger: {
-      tipo: 'comportamiento',
-      valor: 1,
-      condiciones: ['visitante_recurrente', 'tiempo_extendido']
+      tipo: 'tiempo',
+      valor: 180, // 3 minutos para testing
+      condiciones: []
     },
     validaHasta: 7,
     icono: '👨‍👩‍👧‍👦'

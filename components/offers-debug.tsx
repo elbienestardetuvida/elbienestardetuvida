@@ -55,7 +55,40 @@ export function OffersDebug() {
         })
         break
     }
+    // Forzar verificación inmediata
+    setTimeout(() => checkForOffer(), 100)
+  }
+
+  const forceCheck = () => {
+    console.log('🔍 Forzando verificación de ofertas...')
     checkForOffer()
+  }
+
+  const showEligibleOffers = () => {
+    const behavior = OffersManager.getUserBehavior()
+    const eligibleOffers = OFERTAS.filter(oferta => {
+      const shownOffers = OffersManager.getShownOffers()
+      if (shownOffers.includes(oferta.codigo)) return false
+      
+      // Verificar trigger específico
+      switch (oferta.trigger.tipo) {
+        case 'tiempo':
+          return behavior.tiempoNavegacion >= oferta.trigger.valor
+        case 'paginas':
+          return behavior.paginasVisitadas.length >= oferta.trigger.valor
+        case 'interacciones':
+          return behavior.interacciones >= oferta.trigger.valor
+        case 'primera_visita':
+          return behavior.esPrimeraVisita
+        case 'comportamiento':
+          return true // Simplificado para debug
+        default:
+          return false
+      }
+    })
+    
+    console.log('📋 Ofertas elegibles:', eligibleOffers.map(o => o.codigo))
+    alert(`Ofertas elegibles: ${eligibleOffers.map(o => o.codigo).join(', ') || 'Ninguna'}`)
   }
 
   return (
@@ -131,6 +164,26 @@ export function OffersDebug() {
                 onClick={() => simulateBehavior('comportamiento')}
               >
                 Recurrente
+              </Button>
+            </div>
+            
+            {/* Botones de debug adicionales */}
+            <div className="grid grid-cols-2 gap-1">
+              <Button
+                size="sm"
+                variant="secondary"
+                className="text-xs h-7"
+                onClick={forceCheck}
+              >
+                🔍 Verificar
+              </Button>
+              <Button
+                size="sm"
+                variant="secondary"
+                className="text-xs h-7"
+                onClick={showEligibleOffers}
+              >
+                📋 Elegibles
               </Button>
             </div>
           </div>
