@@ -10,6 +10,15 @@ export interface Oferta {
   icono: string
 }
 
+export interface OfertaGenerada {
+  oferta: Oferta
+  codigoUnico: string
+  codigoCompleto: string
+  fechaGeneracion: number
+  fechaExpiracion: number
+  usuario: string
+}
+
 export interface TriggerConfig {
   tipo: 'tiempo' | 'paginas' | 'interacciones' | 'comportamiento' | 'primera_visita'
   valor: number
@@ -116,6 +125,7 @@ export class OffersManager {
   private static readonly STORAGE_KEY = 'elbienestar_offers'
   private static readonly BEHAVIOR_KEY = 'elbienestar_behavior'
   private static readonly TRACKING_KEY = 'elbienestar_tracking'
+  private static readonly GENERATED_OFFERS_KEY = 'elbienestar_generated_offers'
 
   // Obtener comportamiento del usuario
   static getUserBehavior(): UserBehavior {
@@ -242,6 +252,14 @@ export class OffersManager {
     return eligibleOffers[randomIndex]
   }
 
+  // Obtener oferta elegible con código único
+  static getEligibleOfferWithUniqueCode(): OfertaGenerada | null {
+    const oferta = this.getEligibleOffer()
+    if (!oferta) return null
+
+    return this.generateUniqueOffer(oferta)
+  }
+
   // Registrar tracking
   static trackOfferUsage(codigo: string, metodo: 'whatsapp' | 'copiado' | 'screenshot'): void {
     if (typeof window === 'undefined') return
@@ -267,6 +285,71 @@ export class OffersManager {
       localStorage.setItem('elbienestar_user_id', userId)
     }
     return userId
+  }
+
+  // Generar código único para una oferta
+  private static generateUniqueCode(): string {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789' // Sin 0, O, I, 1 para evitar confusión
+    let result = ''
+    for (let i = 0; i < 6; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length))
+    }
+    return result
+  }
+
+  // Generar oferta única para un usuario
+  static generateUniqueOffer(oferta: Oferta): OfertaGenerada {
+    const userId = this.generateUserId()
+    const codigoUnico = this.generateUniqueCode()
+    const codigoCompleto = `${oferta.codigo}-${codigoUnico}`
+    const fechaGeneracion = Date.now()
+    const fechaExpiracion = fechaGeneracion + (oferta.validaHasta * 24 * 60 * 60 * 1000)
+
+    const ofertaGenerada: OfertaGenerada = {
+      oferta,
+      codigoUnico,
+      codigoCompleto,
+      fechaGeneracion,
+      fechaExpiracion,
+      usuario: userId
+    }
+
+    // Guardar oferta generada
+    this.saveGeneratedOffer(ofertaGenerada)
+
+    return ofertaGenerada
+  }
+
+  // Guardar oferta generada
+  private static saveGeneratedOffer(ofertaGenerada: OfertaGenerada): void {
+    if (typeof window === 'undefined') return
+
+    const stored = localStorage.getItem(this.GENERATED_OFFERS_KEY)
+    const generatedOffers: OfertaGenerada[] = stored ? JSON.parse(stored) : []
+    
+    generatedOffers.push(ofertaGenerada)
+    localStorage.setItem(this.GENERATED_OFFERS_KEY, JSON.stringify(generatedOffers))
+  }
+
+  // Obtener ofertas generadas por usuario
+  static getGeneratedOffers(): OfertaGenerada[] {
+    if (typeof window === 'undefined') return []
+
+    const stored = localStorage.getItem(this.GENERATED_OFFERS_KEY)
+    const generatedOffers: OfertaGenerada[] = stored ? JSON.parse(stored) : []
+    const userId = this.generateUserId()
+
+    return generatedOffers.filter(offer => offer.usuario === userId)
+  }
+
+  // Verificar si un código único ya fue usado
+  static isCodeUsed(codigoCompleto: string): boolean {
+    if (typeof window === 'undefined') return false
+
+    const stored = localStorage.getItem(this.TRACKING_KEY)
+    const trackingData: TrackingData[] = stored ? JSON.parse(stored) : []
+    
+    return trackingData.some(track => track.codigoUsado === codigoCompleto)
   }
 
   // Obtener estadísticas de tracking

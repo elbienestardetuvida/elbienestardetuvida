@@ -5,16 +5,17 @@ import { X, Copy, MessageCircle, Camera, Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Oferta, OffersManager } from '@/lib/offers'
+import { OfertaGenerada, OffersManager } from '@/lib/offers'
 
 interface OffersModalProps {
-  oferta: Oferta
+  ofertaGenerada: OfertaGenerada
   onClose: () => void
 }
 
-export function OffersModal({ oferta, onClose }: OffersModalProps) {
+export function OffersModal({ ofertaGenerada, onClose }: OffersModalProps) {
   const [copied, setCopied] = useState(false)
   const [showConfetti, setShowConfetti] = useState(false)
+  const { oferta, codigoCompleto } = ofertaGenerada
 
   useEffect(() => {
     setShowConfetti(true)
@@ -24,9 +25,9 @@ export function OffersModal({ oferta, onClose }: OffersModalProps) {
 
   const handleCopyCode = async () => {
     try {
-      await navigator.clipboard.writeText(oferta.codigo)
+      await navigator.clipboard.writeText(codigoCompleto)
       setCopied(true)
-      OffersManager.trackOfferUsage(oferta.codigo, 'copiado')
+      OffersManager.trackOfferUsage(codigoCompleto, 'copiado')
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
       console.error('Error al copiar:', err)
@@ -35,7 +36,7 @@ export function OffersModal({ oferta, onClose }: OffersModalProps) {
 
   const handleWhatsApp = () => {
     const message = encodeURIComponent(
-      `¡Hola! Quiero canjear mi código de descuento: ${oferta.codigo}\n\n` +
+      `¡Hola! Quiero canjear mi código de descuento: ${codigoCompleto}\n\n` +
       `Oferta: ${oferta.descripcion}\n` +
       `Descuento: ${oferta.descuento}%\n\n` +
       `¿Podrían confirmarme la disponibilidad? ¡Gracias!`
@@ -43,17 +44,16 @@ export function OffersModal({ oferta, onClose }: OffersModalProps) {
     const phoneNumber = "5493521418125"
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank')
     
-    OffersManager.trackOfferUsage(oferta.codigo, 'whatsapp')
+    OffersManager.trackOfferUsage(codigoCompleto, 'whatsapp')
   }
 
   const handleScreenshot = () => {
-    OffersManager.trackOfferUsage(oferta.codigo, 'screenshot')
+    OffersManager.trackOfferUsage(codigoCompleto, 'screenshot')
     // El usuario tomará la captura manualmente
   }
 
   const formatValidityDate = () => {
-    const date = new Date()
-    date.setDate(date.getDate() + oferta.validaHasta)
+    const date = new Date(ofertaGenerada.fechaExpiracion)
     return date.toLocaleDateString('es-AR')
   }
 
@@ -104,15 +104,18 @@ export function OffersModal({ oferta, onClose }: OffersModalProps) {
 
           {/* Código destacado */}
           <div className="text-center mb-6">
-            <p className="text-sm text-gray-600 mb-2">Tu código de descuento:</p>
+            <p className="text-sm text-gray-600 mb-2">Tu código de descuento único:</p>
             <div className="bg-white border-2 border-dashed border-green-300 rounded-lg p-4 mb-2">
-              <div className="text-3xl font-mono font-bold text-green-700 tracking-wider animate-pulse">
-                {oferta.codigo}
+              <div className="text-2xl font-mono font-bold text-green-700 tracking-wider animate-pulse break-all">
+                {codigoCompleto}
               </div>
             </div>
             <Badge variant="secondary" className="bg-green-100 text-green-800">
               {oferta.descuento}% de descuento
             </Badge>
+            <div className="mt-2 text-xs text-gray-500">
+              Código único - No compartir
+            </div>
           </div>
 
           {/* Descripción de la oferta */}

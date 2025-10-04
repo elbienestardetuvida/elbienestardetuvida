@@ -12,7 +12,7 @@ export function OffersSystem() {
 
   return (
     <OffersModal
-      oferta={currentOffer}
+      ofertaGenerada={currentOffer}
       onClose={closeModal}
     />
   )

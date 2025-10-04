@@ -1,10 +1,10 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { Oferta, OffersManager, UserBehavior } from '@/lib/offers'
+import { Oferta, OfertaGenerada, OffersManager, UserBehavior } from '@/lib/offers'
 
 export function useOffers() {
-  const [currentOffer, setCurrentOffer] = useState<Oferta | null>(null)
+  const [currentOffer, setCurrentOffer] = useState<OfertaGenerada | null>(null)
   const [showModal, setShowModal] = useState(false)
   const [behavior, setBehavior] = useState<UserBehavior>(OffersManager.getUserBehavior())
 
@@ -19,14 +19,14 @@ export function useOffers() {
     // Reset semanal si es necesario
     OffersManager.resetWeeklyOffers()
 
-    // Obtener oferta elegible
-    const eligibleOffer = OffersManager.getEligibleOffer()
+    // Obtener oferta elegible con código único
+    const eligibleOffer = OffersManager.getEligibleOfferWithUniqueCode()
     
     if (eligibleOffer) {
       setCurrentOffer(eligibleOffer)
       setShowModal(true)
       // Marcar como mostrada
-      OffersManager.markOfferAsShown(eligibleOffer.codigo)
+      OffersManager.markOfferAsShown(eligibleOffer.oferta.codigo)
     }
   }, [])
 

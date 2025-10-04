@@ -21,6 +21,7 @@ export function OffersDebug() {
     localStorage.removeItem('elbienestar_tracking')
     localStorage.removeItem('elbienestar_user_id')
     localStorage.removeItem('elbienestar_last_reset')
+    localStorage.removeItem('elbienestar_generated_offers')
     window.location.reload()
   }
 
@@ -115,6 +116,19 @@ export function OffersDebug() {
                 <Badge key={codigo} variant="outline" className="text-xs">
                   {codigo}
                 </Badge>
+              ))}
+            </div>
+          </div>
+
+          {/* Ofertas generadas */}
+          <div>
+            <div className="text-xs font-semibold mb-1">Ofertas generadas:</div>
+            <div className="space-y-1 max-h-16 overflow-y-auto">
+              {OffersManager.getGeneratedOffers().map((oferta, index) => (
+                <div key={index} className="text-xs flex justify-between items-center">
+                  <span>{oferta.oferta.icono} {oferta.oferta.codigo}</span>
+                  <span className="text-gray-500 font-mono">{oferta.codigoUnico}</span>
+                </div>
               ))}
             </div>
           </div>
