@@ -6,24 +6,19 @@ import { Button } from "@/components/ui/button"
 
 const carouselImages = [
   {
-    src: "/placeholder.svg?height=400&width=800&text=Frutas+y+Verduras+Frescas",
+    src: "/images/recetas1.png",
     alt: "Frutas y verduras frescas",
     title: "Productos Frescos Diarios",
   },
   {
-    src: "/placeholder.svg?height=400&width=800&text=Carnes+de+Calidad",
+    src: "/recetas2.png",
     alt: "Carnes de calidad",
     title: "Carnes Seleccionadas",
   },
   {
-    src: "/placeholder.svg?height=400&width=800&text=Recetas+Saludables",
+    src: "/recetas3.png",
     alt: "Recetas saludables",
     title: "Recetas con Ingredientes Frescos",
-  },
-  {
-    src: "/placeholder.svg?height=400&width=800&text=Local+Familiar",
-    alt: "Nuestro local familiar",
-    title: "Atención Personalizada",
   },
 ]
 
@@ -48,15 +43,19 @@ export function ImageCarousel() {
       <div className="container mx-auto">
         <div className="relative max-w-4xl mx-auto">
           <div className="glass-card rounded-2xl overflow-hidden">
-            <div className="relative h-64 md:h-96">
+            {/* Contenedor con aspect ratio 1100:750 (22:15) */}
+            <div className="relative w-full" style={{ aspectRatio: '22/15' }}>
               <img
                 src={carouselImages[currentIndex].src || "/placeholder.svg"}
                 alt={carouselImages[currentIndex].alt}
                 className="w-full h-full object-cover"
+                loading="eager"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-              <div className="absolute bottom-6 left-6 right-6">
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">{carouselImages[currentIndex].title}</h3>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4 md:bottom-8 md:left-8 md:right-8">
+                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-white drop-shadow-lg">
+                  {carouselImages[currentIndex].title}
+                </h3>
               </div>
             </div>
           </div>
@@ -66,29 +65,30 @@ export function ImageCarousel() {
             variant="ghost"
             size="icon"
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 transform -translate-y-1/2 glass-button text-white hover:bg-white/20 w-12 h-12"
+            className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 glass-button text-white hover:bg-white/20 w-10 h-10 md:w-12 md:h-12 z-10"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
           </Button>
 
           <Button
             variant="ghost"
             size="icon"
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 glass-button text-white hover:bg-white/20 w-12 h-12"
+            className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 glass-button text-white hover:bg-white/20 w-10 h-10 md:w-12 md:h-12 z-10"
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
           </Button>
 
           {/* Dots Indicator */}
-          <div className="flex justify-center mt-6 space-x-2">
+          <div className="flex justify-center mt-4 md:mt-6 space-x-2">
             {carouselImages.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentIndex ? "bg-white shadow-lg" : "bg-white/50 hover:bg-white/70"
+                className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full transition-all duration-300 ${
+                  index === currentIndex ? "bg-white shadow-lg scale-110" : "bg-white/50 hover:bg-white/70"
                 }`}
+                aria-label={`Ir a imagen ${index + 1}`}
               />
             ))}
           </div>

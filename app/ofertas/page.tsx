@@ -100,18 +100,10 @@ const ofertas = [
   },
   {
     id: "12",
-    nombre: "Bolson de Verdura Familiar",
-    precio: 8000,
-    categoria: "Verdulería",
-    imagen: "/images/ofertas/bolson-verdura.png",
-    descuento: "15% OFF",
-  },
-  {
-    id: "13",
     nombre: "Bolson Familiar (Tomate, Zanahoria, Zapallito, Lechuga, Acelga)",
     precio: 8000,
     categoria: "Verdulería",
-    imagen: "/images/ofertas/bolson-familiar.png",
+    imagen: "/images/bolson-familiar.png",
     descuento: "15% OFF",
   },
 ];
