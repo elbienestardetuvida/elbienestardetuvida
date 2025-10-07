@@ -13,7 +13,7 @@ interface Producto {
   precio: number
   categoria: string
   imagen: string
-  descuento?: string
+  descuento?: string | null
 }
 
 interface ProductCardProps {

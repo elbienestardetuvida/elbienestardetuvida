@@ -59,13 +59,13 @@ export function Footer() {
               <h4 className="text-white font-bold text-lg mb-3 drop-shadow-sm">Horarios de Atención</h4>
               <div className="text-white/80 space-y-1">
                 <p>
-                  <span className="font-medium">Lun - Vie:</span> 8:00 - 13:00 | 16:00 - 20:00
+                  <span className="font-medium">Lunes - Sabados:</span> 8:00 - 13:00 | 17:00 - 21:00
                 </p>
+                {/* <p>
+                  <span className="font-medium">Sábados:</span> 8:00 - 13:00 | 17:00 - 21:00
+                </p> */}
                 <p>
-                  <span className="font-medium">Sábados:</span> 8:00 - 13:00
-                </p>
-                <p>
-                  <span className="font-medium">Domingos:</span> Cerrado
+                  <span className="font-medium">8:00 - 13:00</span> Cerrado
                 </p>
               </div>
             </div>

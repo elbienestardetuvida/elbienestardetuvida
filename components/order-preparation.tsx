@@ -166,7 +166,7 @@ export function OrderPreparation() {
                 <p className="text-sm">Con 1 hora de anticipación mínimo</p>
               </div>
             </div>
-            <Button className="mt-6 bg-white text-green-700 hover:bg-gray-100 font-bold px-8 py-3 rounded-full transform hover:scale-105 transition-all duration-300">
+            <Button onClick={() => window.open('https://wa.me/5493521418125', '_blank')} className="mt-6 bg-white text-green-700 hover:bg-gray-100 font-bold px-8 py-3 rounded-full transform hover:scale-105 transition-all duration-300">
               📱 Hacer Pedido Ahora
             </Button>
           </div>
