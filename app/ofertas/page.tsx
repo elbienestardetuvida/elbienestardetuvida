@@ -29,7 +29,7 @@ const ofertas = [
     nombre: "Falda",
     precio: 7500,
     categoria: "Carnicería",
-    imagen: "/images/ofertas/falda.png",
+    imagen: "/images/falda.png",
     descuento: null,
   },
   {
@@ -37,7 +37,7 @@ const ofertas = [
     nombre: "Pata Muslo (2kg)",
     precio: 5700,
     categoria: "Carnicería",
-    imagen: "/images/ofertas/pata-muslo.png",
+    imagen: "/images/pata-muslo.png",
     descuento: null,
   },
   {
@@ -45,7 +45,7 @@ const ofertas = [
     nombre: "Alitas (3kg)",
     precio: 6500,
     categoria: "Carnicería",
-    imagen: "/images/ofertas/alitas.png",
+    imagen: "/images/alitas.png",
     descuento: null,
   },
   {
@@ -53,7 +53,7 @@ const ofertas = [
     nombre: "Supremas (2kg)",
     precio: 16000,
     categoria: "Carnicería",
-    imagen: "/images/ofertas/supremas.png",
+    imagen: "/images/supremas.png",
     descuento: null,
   },
   {
@@ -61,7 +61,7 @@ const ofertas = [
     nombre: "Pechuga (2kg)",
     precio: 15400,
     categoria: "Carnicería",
-    imagen: "/images/ofertas/pechuga.png",
+    imagen: "/images/pechuga.png",
     descuento: null,
   },
 
@@ -71,7 +71,7 @@ const ofertas = [
     nombre: "Maples de Huevos (2)",
     precio: 10000,
     categoria: "Verdulería",
-    imagen: "/images/ofertas/huevos.png",
+    imagen: "/images/huevos.png",
     descuento: "15% OFF",
   },
   {
@@ -79,7 +79,7 @@ const ofertas = [
     nombre: "Papas (3kg)",
     precio: 1500,
     categoria: "Verdulería",
-    imagen: "/images/ofertas/papas.png",
+    imagen: "/images/papas.png",
     descuento: "15% OFF",
   },
   {
@@ -87,7 +87,7 @@ const ofertas = [
     nombre: "Cebolla (2kg)",
     precio: 1300,
     categoria: "Verdulería",
-    imagen: "/images/ofertas/cebolla.png",
+    imagen: "/images/cebolla.png",
     descuento: "15% OFF",
   },
   {
@@ -95,7 +95,7 @@ const ofertas = [
     nombre: "Bolson Mix de Fruta",
     precio: 8500,
     categoria: "Frutas",
-    imagen: "/images/ofertas/bolson-fruta.png",
+    imagen: "/images/bolson-fruta.png",
     descuento: "15% OFF",
   },
   {
