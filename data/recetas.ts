@@ -16,7 +16,7 @@ export const recetas: Receta[] = [
     nombre: "Pollo al Horno con Papas y Cebolla",
     descripcion:
       "Un clásico que nunca falla: muslos de pollo tiernos al horno con papas doradas, cebolla caramelizada y un toque de romero.",
-    imagen: "/images/recetas/pollo-horno-papas.png",
+    imagen: "/images/pollohornopapas.png",
     tiempo: "75 min",
     porciones: "4 personas",
     ingredientes: [
@@ -41,7 +41,7 @@ export const recetas: Receta[] = [
     nombre: "Tarta de Acelga y Zanahoria",
     descripcion:
       "Ideal para una comida liviana y casera. Acelga fresca y zanahoria rallada con un relleno cremoso y dorado al horno.",
-    imagen: "/images/recetas/tarta-acelga-zanahoria.png",
+    imagen: "/images/tarta-acelga-zanahoria.png",
     tiempo: "60 min",
     porciones: "6 personas",
     ingredientes: [
@@ -63,37 +63,41 @@ export const recetas: Receta[] = [
     dificultad: "Fácil",
   },
   {
-    slug: "guiso-de-pulpa-y-papas",
-    nombre: "Guiso de Pulpa y Papas",
+    slug: "guiso-de-arroz-con-pulpa",
+    nombre: "Guiso de Arroz con Pulpa",
     descripcion:
-      "Un plato calentito y nutritivo con pulpa de res, papas, zanahoria y condimentos caseros. Perfecto para compartir en familia.",
-    imagen: "/images/recetas/guiso-pulpa-papas.png",
-    tiempo: "90 min",
+      "Un clásico bien casero: guiso de arroz con pulpa tierna, papas, verduras y el sabor inconfundible de la cocina del hogar.",
+    imagen: "/images/guiso-arroz-pulpa.png",
+    tiempo: "80 min",
     porciones: "6 personas",
     ingredientes: [
-      "1 kg de pulpa en trozo",
-      "3 papas grandes cortadas en cubos",
-      "2 zanahorias en rodajas",
+      "1 kg de pulpa en trozo cortada en cubos",
+      "2 tazas de arroz",
+      "2 papas medianas cortadas en cubos",
       "1 cebolla grande picada",
       "2 tomates picados o 1 taza de puré de tomate",
-      "1 litro de caldo de verduras o carne",
-      "Sal, pimienta, pimentón y laurel",
+      "1 zanahoria rallada o en cubos pequeños",
+      "1 pimiento rojo picado (opcional)",
+      "1 litro y medio de caldo de carne o verduras",
+      "2 cucharadas de aceite",
+      "Pimentón dulce, comino, sal, pimienta y una hoja de laurel",
     ],
     pasos: [
-      "En una olla, dorar la carne con un poco de aceite.",
-      "Agregar la cebolla y los tomates, cocinar 5 minutos.",
-      "Incorporar las zanahorias, las papas y el caldo.",
-      "Cocinar a fuego medio-bajo durante 60 minutos hasta que la carne esté tierna.",
-      "Servir caliente, ideal con pan casero.",
+      "En una olla grande, calentar el aceite y dorar la pulpa hasta sellarla por todos lados.",
+      "Agregar la cebolla, el tomate, el pimiento y la zanahoria. Cocinar hasta que se ablanden.",
+      "Incorporar el caldo caliente, las papas, el laurel y los condimentos. Cocinar 40 minutos a fuego medio-bajo.",
+      "Agregar el arroz y revolver bien para que no se pegue.",
+      "Cocinar 15-20 minutos más, agregando caldo si es necesario, hasta que el arroz esté tierno y el guiso espeso.",
+      "Servir bien caliente, con un toque de perejil picado o queso rallado si se desea.",
     ],
     dificultad: "Intermedio",
-  },
+  },  
   {
     slug: "ensalada-fresca-de-huerta",
     nombre: "Ensalada Fresca de Huerta",
     descripcion:
       "Colorida y natural, combina los sabores frescos del tomate, la lechuga y la zanahoria. Perfecta para acompañar cualquier comida.",
-    imagen: "/images/recetas/ensalada-huerta.png",
+    imagen: "/images/ensalada-huerta.png",
     tiempo: "10 min",
     porciones: "2 personas",
     ingredientes: [
@@ -115,7 +119,7 @@ export const recetas: Receta[] = [
     nombre: "Revuelto de Pollo y Verduras",
     descripcion:
       "Una opción rápida y deliciosa: pechuga de pollo salteada con verduras frescas y un toque de salsa de soja.",
-    imagen: "/images/recetas/revuelto-pollo-verduras.png",
+    imagen: "/images/revuelto-pollo-verduras.png",
     tiempo: "25 min",
     porciones: "3 personas",
     ingredientes: [
@@ -140,7 +144,7 @@ export const recetas: Receta[] = [
     nombre: "Tortilla de Papas y Cebollas",
     descripcion:
       "Clásica tortilla criolla con papas doradas, cebolla y huevos. Simple, sabrosa y rendidora.",
-    imagen: "/images/recetas/tortilla-papas.png",
+    imagen: "/images/tortilla-papas.png",
     tiempo: "35 min",
     porciones: "4 personas",
     ingredientes: [

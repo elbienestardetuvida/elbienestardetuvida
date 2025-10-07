@@ -47,11 +47,14 @@ export default function RecipePage({ params }: RecipePageProps) {
             </Link>
 
             <div className="glass-card p-8 mb-8">
-              <img
-                src={receta.imagen || "/placeholder.svg"}
-                alt={receta.nombre}
-                className="w-full h-64 md:h-96 object-cover rounded-2xl mb-6"
-              />
+              {/* Contenedor con aspect ratio 1100:750 (22:15) */}
+              <div className="relative w-full overflow-hidden rounded-2xl mb-6" style={{ aspectRatio: '22/15' }}>
+                <img
+                  src={receta.imagen || "/placeholder.svg"}
+                  alt={receta.nombre}
+                  className="w-full h-full object-cover"
+                />
+              </div>
 
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg">{receta.nombre}</h1>
 

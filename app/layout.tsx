@@ -6,6 +6,7 @@ import { CartProvider } from "@/contexts/cart-context"
 import { ToastProvider } from "@/contexts/toast-context"
 import { OffersSystem } from "@/components/offers-system"
 import { OffersDebug } from "@/components/offers-debug"
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -14,7 +15,6 @@ export const metadata: Metadata = {
   description:
     "Tu lugar para elegir salud y frescura. Frutas, verduras y carnes frescas en San José de la Dormida, Córdoba.",
   keywords: "verdulería, carnicería, frutas frescas, verduras, carnes, San José de la Dormida, Córdoba",
-    generator: 'v0.app'
 }
 
 export default function RootLayout({
@@ -32,6 +32,7 @@ export default function RootLayout({
             {/* <OffersDebug /> */}
           </CartProvider>
         </ToastProvider>
+        <Analytics />
       </body>
     </html>
   )

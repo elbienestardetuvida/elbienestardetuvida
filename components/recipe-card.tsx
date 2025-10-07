@@ -26,11 +26,13 @@ export function RecipeCard({ receta }: RecipeCardProps) {
     <Link href={`/recetas/${receta.slug}`}>
       <Card className="glass-card bg-orange-50/50 hover:scale-105 transition-all duration-300 cursor-pointer group">
         <CardHeader className="p-0">
-          <img
-            src={receta.imagen || "/placeholder.svg"}
-            alt={receta.nombre}
-            className="w-full h-48 object-cover rounded-t-lg"
-          />
+          <div className="relative w-full overflow-hidden rounded-t-lg" style={{ aspectRatio: '22/15' }}>
+            <img
+              src={receta.imagen || "/placeholder.svg"}
+              alt={receta.nombre}
+              className="w-full h-full object-cover"
+            />
+          </div>
         </CardHeader>
         <CardContent className="p-6">
           <div className="space-y-4">
