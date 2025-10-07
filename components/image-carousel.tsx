@@ -8,17 +8,17 @@ const carouselImages = [
   {
     src: "/images/recetas1.png",
     alt: "Frutas y verduras frescas",
-    title: "Productos Frescos Diarios",
+    title: "El Bienestar de tu Vida",
   },
   {
-    src: "/recetas2.png",
+    src: "/images/recetas2.png",
     alt: "Carnes de calidad",
-    title: "Carnes Seleccionadas",
+    title: "El Bienestar de tu Vida",
   },
   {
-    src: "/recetas3.png",
+    src: "/images/recetas3.png",
     alt: "Recetas saludables",
-    title: "Recetas con Ingredientes Frescos",
+    title: "El Bienestar de tu Vida",
   },
 ]
 
