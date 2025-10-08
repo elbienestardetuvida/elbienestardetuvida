@@ -132,12 +132,12 @@ export function Cart() {
           {state.items.length === 0 ? (
             <div className="text-center py-12">
               <ShoppingBag className="w-16 h-16 text-green-300 mx-auto mb-4" />
-              <p className="text-green-600 text-lg font-semibold">Tu carrito está vacío</p>
-              <p className="text-green-500 text-sm mt-2 mb-4">¡Agregá productos frescos y aprovechá nuestras ofertas!</p>
+              <p className="text-white text-lg font-semibold">Tu carrito está vacío</p>
+              <p className="text-white text-sm mt-2 mb-4">¡Agregá productos frescos y aprovechá nuestras ofertas!</p>
               
               {/* Productos destacados cuando el carrito está vacío */}
               <div className="mt-6 space-y-3">
-                <p className="text-green-700 font-semibold flex items-center justify-center">
+                <p className="text-white font-semibold flex items-center justify-center">
                   <Sparkles className="w-4 h-4 mr-2" />
                   Productos Destacados
                 </p>
