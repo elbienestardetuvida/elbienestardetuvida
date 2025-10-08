@@ -55,134 +55,118 @@ const productosDestacados = [
     imagen: "/images/lechugahidroponica.png",
     descuento: "20% OFF"
   },
-  {
-    id: '7',
-    nombre: "Lechuga Manteca",
-    precio: 3500,
-    categoria: "Verduras",
-    imagen: "/placeholder.svg?height=200&width=200&text=Lechuga+Manteca",
-    descuento: "15% OFF"
-  },
-  {
-    id: '8',
-    nombre: "Lechuga Repollada",
-    precio: 1900,
-    categoria: "Verduras",
-    imagen: "/placeholder.svg?height=200&width=200&text=Lechuga+Repollada",
-    descuento: "15% OFF"
-  },
-  {
-    id: '9',
-    nombre: "Rúcula",
-    precio: 1500,
-    categoria: "Verduras",
-    imagen: "/placeholder.svg?height=200&width=200&text=Rúcula",
-    descuento: "10% OFF"
-  },
+  // {
+  //   id: '9',
+  //   nombre: "Rúcula hidroponica",
+  //   precio: 1500,
+  //   categoria: "Verduras",
+  //   imagen: "/placeholder.svg?height=200&width=200&text=Rúcula",
+  //   descuento: "10% OFF"
+  // },
   {
     id: '10',
-    nombre: "Achicoria",
+    nombre: "Achicoria Hidropónica",
     precio: 1650,
     categoria: "Verduras",
-    imagen: "/placeholder.svg?height=200&width=200&text=Achicoria",
+    imagen: "/images/achicoria.png",
     descuento: "10% OFF"
   },
-  {
-    id: '11',
-    nombre: "Hidropónica",
-    precio: 3500,
-    categoria: "Verduras",
-    imagen: "/placeholder.svg?height=200&width=200&text=Hidropónica",
-    descuento: "12% OFF"
-  },
-  {
-    id: '12',
-    nombre: "Medallón de Merluza",
-    precio: 8400,
-    categoria: "Pescados",
-    imagen: "/placeholder.svg?height=200&width=200&text=Medallón+de+Merluza",
-    descuento: "20% OFF"
-  },
-  {
-    id: '13',
-    nombre: "Nuggets",
-    precio: 8900,
-    categoria: "Congelados",
-    imagen: "/placeholder.svg?height=200&width=200&text=Nuggets",
-    descuento: "18% OFF"
-  },
-  {
-    id: '14',
-    nombre: "Medallón de Pollo",
-    precio: 8400,
-    categoria: "Congelados",
-    imagen: "/placeholder.svg?height=200&width=200&text=Medallón+de+Pollo",
-    descuento: "15% OFF"
-  },
-  {
-    id: '15',
-    nombre: "Filet de Merluza a las Finas Hierbas",
-    precio: 11000,
-    categoria: "Pescados",
-    imagen: "/placeholder.svg?height=200&width=200&text=Filet+Merluza+Finas+Hierbas",
-    descuento: "18% OFF"
-  },
-  {
-    id: '16',
-    nombre: "Barritas de Muzzarella",
-    precio: 13500,
-    categoria: "Congelados",
-    imagen: "/placeholder.svg?height=200&width=200&text=Barritas+de+Muzzarella",
-    descuento: "22% OFF"
-  },
-  {
-    id: '17',
-    nombre: "Tortilla de Espinaca",
-    precio: 8150,
-    categoria: "Congelados",
-    imagen: "/placeholder.svg?height=200&width=200&text=Tortilla+de+Espinaca",
-    descuento: "15% OFF"
-  },
-  {
-    id: '18',
-    nombre: "Papas Congeladas",
-    precio: 4500,
-    categoria: "Congelados",
-    imagen: "/placeholder.svg?height=200&width=200&text=Papas+Congeladas",
-    descuento: "10% OFF"
-  },
-  {
-    id: '19',
-    nombre: "Rabas",
-    precio: 24200,
-    categoria: "Pescados",
-    imagen: "/placeholder.svg?height=200&width=200&text=Rabas",
-    descuento: "20% OFF"
-  },
-  {
-    id: '20',
-    nombre: "Papas Noisette",
-    precio: 9000,
-    categoria: "Congelados",
-    imagen: "/placeholder.svg?height=200&width=200&text=Papas+Noisette",
-    descuento: "12% OFF"
-  },
-  {
-    id: '21',
-    nombre: "Milanesas de Soja",
-    precio: 7500,
-    categoria: "Congelados",
-    imagen: "/placeholder.svg?height=200&width=200&text=Milanesas+de+Soja",
-    descuento: "15% OFF"
-  },
-  {
-    id: '22',
-    nombre: "Patitas de Pollo",
-    precio: 8400,
-    categoria: "Congelados",
-    imagen: "/placeholder.svg?height=200&width=200&text=Patitas+de+Pollo",
-    descuento: "18% OFF"
-  }
+  // {
+  //   id: '11',
+  //   nombre: "Hidropónica",
+  //   precio: 3500,
+  //   categoria: "Verduras",
+  //   imagen: "/placeholder.svg?height=200&width=200&text=Hidropónica",
+  //   descuento: "12% OFF"
+  // },
+  // {
+  //   id: '12',
+  //   nombre: "Medallón de Merluza",
+  //   precio: 8400,
+  //   categoria: "Pescados",
+  //   imagen: "/placeholder.svg?height=200&width=200&text=Medallón+de+",
+  //   descuento: "20% OFF"
+  // },
+  // {
+  //   id: '13',
+  //   nombre: "Nuggets",
+  //   precio: 8900,
+  //   categoria: "Congelados",
+  //   imagen: "/placeholder.svg?height=200&width=200&text=Nuggets",
+  //   descuento: "18% OFF"
+  // },
+  // {
+  //   id: '14',
+  //   nombre: "Medallón de Pollo",
+  //   precio: 8400,
+  //   categoria: "Congelados",
+  //   imagen: "/placeholder.svg?height=200&width=200&text=Medallón+de+Pollo",
+  //   descuento: "15% OFF"
+  // },
+  // {
+  //   id: '15',
+  //   nombre: "Filet de Merluza a las Finas Hierbas",
+  //   precio: 11000,
+  //   categoria: "Pescados",
+  //   imagen: "/placeholder.svg?height=200&width=200&text=Filet+Merluza+Finas+Hierbas",
+  //   descuento: "18% OFF"
+  // },
+  // {
+  //   id: '16',
+  //   nombre: "Barritas de Muzzarella",
+  //   precio: 13500,
+  //   categoria: "Congelados",
+  //   imagen: "/placeholder.svg?height=200&width=200&text=Barritas+de+Muzzarella",
+  //   descuento: "22% OFF"
+  // },
+  // {
+  //   id: '17',
+  //   nombre: "Tortilla de Espinaca",
+  //   precio: 8150,
+  //   categoria: "Congelados",
+  //   imagen: "/placeholder.svg?height=200&width=200&text=Tortilla+de+Espinaca",
+  //   descuento: "15% OFF"
+  // },
+  // {
+  //   id: '18',
+  //   nombre: "Papas Congeladas",
+  //   precio: 4500,
+  //   categoria: "Congelados",
+  //   imagen: "/placeholder.svg?height=200&width=200&text=Papas+Congeladas",
+  //   descuento: "10% OFF"
+  // },
+  // {
+  //   id: '19',
+  //   nombre: "Rabas",
+  //   precio: 24200,
+  //   categoria: "Pescados",
+  //   imagen: "/placeholder.svg?height=200&width=200&text=Rabas",
+  //   descuento: "20% OFF"
+  // },
+  // {
+  //   id: '20',
+  //   nombre: "Papas Noisette",
+  //   precio: 9000,
+  //   categoria: "Congelados",
+  //   imagen: "/placeholder.svg?height=200&width=200&text=Papas+Noisette",
+  //   descuento: "12% OFF"
+  // },
+  // {
+  //   id: '21',
+  //   nombre: "Milanesas de Soja",
+  //   precio: 7500,
+  //   categoria: "Congelados",
+  //   imagen: "/placeholder.svg?height=200&width=200&text=Milanesas+de+Soja",
+  //   descuento: "15% OFF"
+  // },
+  // {
+  //   id: '22',
+  //   nombre: "Patitas de Pollo",
+  //   precio: 8400,
+  //   categoria: "Congelados",
+  //   imagen: "/placeholder.svg?height=200&width=200&text=Patitas+de+Pollo",
+  //   descuento: "18% OFF"
+  // }
 ]
 
 
