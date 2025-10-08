@@ -5,7 +5,6 @@ import "./globals.css"
 import { CartProvider } from "@/contexts/cart-context"
 import { ToastProvider } from "@/contexts/toast-context"
 import { OffersSystem } from "@/components/offers-system"
-import { OffersDebug } from "@/components/offers-debug"
 import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -29,7 +28,6 @@ export default function RootLayout({
           <CartProvider>
             {children}
             <OffersSystem />
-            {/* <OffersDebug /> */}
           </CartProvider>
         </ToastProvider>
         <Analytics />

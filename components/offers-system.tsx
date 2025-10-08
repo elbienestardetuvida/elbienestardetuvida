@@ -1,18 +1,18 @@
 'use client'
 
-import { OffersModal } from './offers-modal'
-import { useOffers } from '@/hooks/use-offers'
+import { SimpleOffersModal } from './simple-offers-modal'
+import { useSimpleOffers } from '@/hooks/use-simple-offers'
 
 export function OffersSystem() {
-  const { currentOffer, showModal, closeModal } = useOffers()
+  const { generatedOffer, showModal, closeModal } = useSimpleOffers()
 
-  if (!showModal || !currentOffer) {
+  if (!showModal || !generatedOffer) {
     return null
   }
 
   return (
-    <OffersModal
-      ofertaGenerada={currentOffer}
+    <SimpleOffersModal
+      generatedOffer={generatedOffer}
       onClose={closeModal}
     />
   )

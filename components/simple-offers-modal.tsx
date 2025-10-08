@@ -1,21 +1,21 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { X, Copy, MessageCircle, Camera, Check } from 'lucide-react'
+import { X, Copy, MessageCircle, Check, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { OfertaGenerada, OffersManager } from '@/lib/offers'
+import { GeneratedOffer } from '@/lib/simple-offers'
 
-interface OffersModalProps {
-  ofertaGenerada: OfertaGenerada
+interface SimpleOffersModalProps {
+  generatedOffer: GeneratedOffer
   onClose: () => void
 }
 
-export function OffersModal({ ofertaGenerada, onClose }: OffersModalProps) {
+export function SimpleOffersModal({ generatedOffer, onClose }: SimpleOffersModalProps) {
   const [copied, setCopied] = useState(false)
   const [showConfetti, setShowConfetti] = useState(false)
-  const { oferta, codigoCompleto } = ofertaGenerada
+  const { oferta, codigoCompleto } = generatedOffer
 
   useEffect(() => {
     setShowConfetti(true)
@@ -27,7 +27,6 @@ export function OffersModal({ ofertaGenerada, onClose }: OffersModalProps) {
     try {
       await navigator.clipboard.writeText(codigoCompleto)
       setCopied(true)
-      OffersManager.trackOfferUsage(codigoCompleto, 'copiado')
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
       console.error('Error al copiar:', err)
@@ -36,25 +35,14 @@ export function OffersModal({ ofertaGenerada, onClose }: OffersModalProps) {
 
   const handleWhatsApp = () => {
     const message = encodeURIComponent(
-      `¡Hola! Quiero canjear mi código de descuento: ${codigoCompleto}\n\n` +
-      `Oferta: ${oferta.descripcion}\n` +
+      `¡Hola! Quiero usar mi código de descuento único: ${codigoCompleto}\n\n` +
+      `Categoría: ${oferta.categoria}\n` +
+      `${oferta.descripcion}\n` +
       `Descuento: ${oferta.descuento}%\n\n` +
-      `¿Podrían confirmarme la disponibilidad? ¡Gracias!`
+      `¿Me confirman la disponibilidad? ¡Gracias!`
     )
     const phoneNumber = "5493521418125"
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank')
-    
-    OffersManager.trackOfferUsage(codigoCompleto, 'whatsapp')
-  }
-
-  const handleScreenshot = () => {
-    OffersManager.trackOfferUsage(codigoCompleto, 'screenshot')
-    // El usuario tomará la captura manualmente
-  }
-
-  const formatValidityDate = () => {
-    const date = new Date(ofertaGenerada.fechaExpiracion)
-    return date.toLocaleDateString('es-AR')
   }
 
   return (
@@ -62,13 +50,14 @@ export function OffersModal({ ofertaGenerada, onClose }: OffersModalProps) {
       {/* Confetti Animation */}
       {showConfetti && (
         <div className="absolute inset-0 pointer-events-none">
-          {[...Array(20)].map((_, i) => (
+          {[...Array(30)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-2 h-2 bg-yellow-400 rounded-full animate-ping"
+              className="absolute w-2 h-2 rounded-full animate-ping"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
+                backgroundColor: ['#10b981', '#f59e0b', '#3b82f6', '#ef4444', '#8b5cf6'][Math.floor(Math.random() * 5)],
                 animationDelay: `${Math.random() * 2}s`,
                 animationDuration: `${1 + Math.random() * 2}s`
               }}
@@ -84,8 +73,9 @@ export function OffersModal({ ofertaGenerada, onClose }: OffersModalProps) {
             <div className="flex items-center gap-2">
               <span className="text-4xl">{oferta.icono}</span>
               <div>
-                <h2 className="text-2xl font-bold text-green-800">
-                  ¡Felicidades! 🎉
+                <h2 className="text-2xl font-bold text-green-800 flex items-center gap-2">
+                  ¡Felicidades!
+                  <Sparkles className="w-5 h-5 text-yellow-500" />
                 </h2>
                 <p className="text-sm text-gray-600">
                   {oferta.mensaje}
@@ -102,19 +92,32 @@ export function OffersModal({ ofertaGenerada, onClose }: OffersModalProps) {
             </Button>
           </div>
 
+          {/* Mensaje especial */}
+          <div className="bg-gradient-to-r from-yellow-100 to-orange-100 border border-yellow-300 rounded-lg p-3 mb-4 text-center">
+            <p className="text-sm font-semibold text-orange-800">
+              🎁 ¡Este es tu código único y exclusivo!
+            </p>
+          </div>
+
           {/* Código destacado */}
           <div className="text-center mb-6">
             <p className="text-sm text-gray-600 mb-2">Tu código de descuento único:</p>
-            <div className="bg-white border-2 border-dashed border-green-300 rounded-lg p-4 mb-2">
-              <div className="text-2xl font-mono font-bold text-green-700 tracking-wider animate-pulse break-all">
+            <div className="bg-white border-2 border-dashed border-green-300 rounded-lg p-4 mb-2 relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-green-100/50 to-blue-100/50 animate-pulse"></div>
+              <div className="text-2xl font-mono font-bold text-green-700 tracking-wider relative z-10 break-all">
                 {codigoCompleto}
               </div>
             </div>
-            <Badge variant="secondary" className="bg-green-100 text-green-800">
-              {oferta.descuento}% de descuento
-            </Badge>
+            <div className="flex justify-center gap-2 flex-wrap">
+              <Badge variant="secondary" className="bg-green-100 text-green-800">
+                {oferta.descuento}% OFF
+              </Badge>
+              <Badge variant="outline" className="border-purple-300 text-purple-700">
+                {oferta.categoria}
+              </Badge>
+            </div>
             <div className="mt-2 text-xs text-gray-500">
-              Código único - No compartir
+              ⚡ Código generado exclusivamente para ti
             </div>
           </div>
 
@@ -124,7 +127,7 @@ export function OffersModal({ ofertaGenerada, onClose }: OffersModalProps) {
               {oferta.descripcion}
             </h3>
             <p className="text-sm text-gray-600">
-              Válido hasta el {formatValidityDate()}
+              Válido en tu próxima compra
             </p>
           </div>
 
@@ -155,21 +158,12 @@ export function OffersModal({ ofertaGenerada, onClose }: OffersModalProps) {
               <MessageCircle className="h-4 w-4 mr-2" />
               Enviar por WhatsApp
             </Button>
-
-            <Button
-              onClick={handleScreenshot}
-              variant="outline"
-              className="w-full border-green-300 text-green-700 hover:bg-green-50"
-            >
-              <Camera className="h-4 w-4 mr-2" />
-              Tomar Captura
-            </Button>
           </div>
 
           {/* Instrucciones */}
           <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
             <p className="text-xs text-yellow-800 text-center">
-              💡 <strong>Tip:</strong> Guarda este código o toma una captura para no perderlo
+              💡 <strong>Importante:</strong> Este código es único e intransferible. Guárdalo para tu próxima compra.
             </p>
           </div>
         </CardContent>
@@ -177,3 +171,4 @@ export function OffersModal({ ofertaGenerada, onClose }: OffersModalProps) {
     </div>
   )
 }
+

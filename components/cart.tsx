@@ -2,9 +2,8 @@
 
 import { useCart } from '@/contexts/cart-context'
 import { Button } from '@/components/ui/button'
-import { X, Plus, Minus, ShoppingBag, Clock, Sparkles, Gift, Tag, TrendingUp } from 'lucide-react'
-import { useState, useEffect } from 'react'
-import { OffersManager, type OfertaGenerada } from '@/lib/offers'
+import { X, Plus, Minus, ShoppingBag, Clock, Sparkles, TrendingUp } from 'lucide-react'
+import { useState } from 'react'
 import Link from 'next/link'
 
 // Productos sugeridos para cross-selling
@@ -34,34 +33,16 @@ const productosSugeridos = [
 
 export function Cart() {
   const { state, dispatch } = useCart()
-  const [ofertaActiva, setOfertaActiva] = useState<OfertaGenerada | null>(null)
   const [mostrarSugerencias, setMostrarSugerencias] = useState(false)
-
-  useEffect(() => {
-    // Verificar si hay ofertas disponibles para el usuario
-    const oferta = OffersManager.getEligibleOfferWithUniqueCode()
-    if (oferta) {
-      setOfertaActiva(oferta)
-    }
-  }, [])
 
   const handleWhatsAppOrder = () => {
     if (state.items.length === 0) return
 
-    let orderText = `¡Hola! Quiero hacer el siguiente pedido:\n\n${state.items
+    const orderText = `¡Hola! Quiero hacer el siguiente pedido:\n\n${state.items
       .map(item => `• ${item.nombre} x${item.cantidad} - $${(item.precio * item.cantidad).toLocaleString()}`)
-      .join('\n')}\n\n*Total: $${state.total.toLocaleString()}*`
+      .join('\n')}\n\n*Total: $${state.total.toLocaleString()}*\n\n📍 *¿A qué hora paso a retirar?*\n✅ Retiro flexible - Elegí tu horario\n\n¡Gracias!`
 
-    // Agregar código de oferta si existe
-    if (ofertaActiva) {
-      orderText += `\n\n🎁 *Código de descuento:* ${ofertaActiva.codigoCompleto}\n(${ofertaActiva.oferta.descuento}% OFF en ${ofertaActiva.oferta.categoria})`
-      OffersManager.trackOfferUsage(ofertaActiva.codigoCompleto, 'whatsapp')
-      OffersManager.markOfferAsShown(ofertaActiva.oferta.codigo)
-    }
-
-    orderText += `\n\n📍 *¿A qué hora paso a retirar?*\n✅ Retiro flexible - Elegí tu horario\n\n¡Gracias!`
-
-    const phoneNumber = "5493521418125" // Reemplazar con el número real
+    const phoneNumber = "5493521418125"
     const encodedText = encodeURIComponent(orderText)
     window.open(`https://wa.me/${phoneNumber}?text=${encodedText}`, '_blank')
   }
@@ -91,9 +72,6 @@ export function Cart() {
       }
     })
   }
-
-  const descuentoAplicado = ofertaActiva ? (state.total * ofertaActiva.oferta.descuento) / 100 : 0
-  const totalConDescuento = state.total - descuentoAplicado
 
   return (
     <div
@@ -184,27 +162,6 @@ export function Cart() {
                   </div>
                 </div>
               </div>
-
-              {/* Oferta activa disponible */}
-              {ofertaActiva && (
-                <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-4 rounded-lg mb-4 shadow-md animate-pulse">
-                  <div className="flex items-start">
-                    <Gift className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
-                    <div className="flex-1">
-                      <p className="font-bold text-sm flex items-center">
-                        {ofertaActiva.oferta.icono} {ofertaActiva.oferta.mensaje}
-                      </p>
-                      <p className="text-xs mt-1">{ofertaActiva.oferta.descripcion}</p>
-                      <div className="mt-2 bg-white/20 backdrop-blur-sm rounded px-2 py-1 inline-block">
-                        <p className="text-xs font-mono font-bold">{ofertaActiva.codigoCompleto}</p>
-                      </div>
-                      <p className="text-xs mt-1 opacity-90">
-                        ✨ Se aplicará automáticamente al enviar tu pedido
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
 
               {/* Items del carrito */}
               <div className="space-y-3">
@@ -320,46 +277,11 @@ export function Cart() {
           <div className="border-t border-green-200 p-6 space-y-3 bg-gradient-to-r from-green-50 to-green-100">
             {/* Resumen de precios */}
             <div className="space-y-2">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-green-700">Subtotal:</span>
-                <span className="font-semibold text-green-800">
+              <div className="flex justify-between items-center">
+                <span className="text-xl font-bold text-green-800">Total:</span>
+                <span className="text-2xl font-bold text-green-700">
                   ${state.total.toLocaleString()}
                 </span>
-              </div>
-              
-              {ofertaActiva && descuentoAplicado > 0 && (
-                <>
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-orange-600 flex items-center">
-                      <Tag className="w-4 h-4 mr-1" />
-                      Descuento ({ofertaActiva.oferta.descuento}%):
-                    </span>
-                    <span className="font-semibold text-orange-600">
-                      -${descuentoAplicado.toLocaleString()}
-                    </span>
-                  </div>
-                  <div className="border-t border-green-300 pt-2"></div>
-                </>
-              )}
-              
-            <div className="flex justify-between items-center">
-              <span className="text-xl font-bold text-green-800">Total:</span>
-                <div className="text-right">
-                  {ofertaActiva && descuentoAplicado > 0 ? (
-                    <>
-                      <span className="text-sm text-gray-500 line-through block">
-                        ${state.total.toLocaleString()}
-                      </span>
-                      <span className="text-2xl font-bold text-green-700">
-                        ${totalConDescuento.toLocaleString()}
-                      </span>
-                    </>
-                  ) : (
-              <span className="text-2xl font-bold text-green-700">
-                ${state.total.toLocaleString()}
-              </span>
-                  )}
-                </div>
               </div>
             </div>
 
@@ -377,12 +299,6 @@ export function Cart() {
             >
               📱 Confirmar Pedido por WhatsApp
             </Button>
-
-            {ofertaActiva && (
-              <p className="text-xs text-center text-green-700">
-                ✨ Tu código de descuento se incluirá automáticamente
-              </p>
-            )}
             
             <Button
               variant="outline"
