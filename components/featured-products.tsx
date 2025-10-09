@@ -47,14 +47,14 @@ const productosDestacados = [
     imagen: "/images/uvas.png",
     descuento: "18% OFF"
   },
-  {
-    id: '6',
-    nombre: "Lechuga hidroponica",
-    precio: 1800,
-    categoria: "Verduras",
-    imagen: "/images/lechugahidroponica.png",
-    descuento: "20% OFF"
-  },
+  // {
+  //   id: '6',
+  //   nombre: "Lechuga hidroponica",
+  //   precio: 1800,
+  //   categoria: "Verduras",
+  //   imagen: "/images/lechugahidroponica.png",
+  //   descuento: "20% OFF"
+  // },
   // {
   //   id: '9',
   //   nombre: "Rúcula hidroponica",
@@ -63,14 +63,14 @@ const productosDestacados = [
   //   imagen: "/placeholder.svg?height=200&width=200&text=Rúcula",
   //   descuento: "10% OFF"
   // },
-  {
-    id: '10',
-    nombre: "Achicoria Hidropónica",
-    precio: 1650,
-    categoria: "Verduras",
-    imagen: "/images/achicoria.png",
-    descuento: "10% OFF"
-  },
+  // {
+  //   id: '10',
+  //   nombre: "Achicoria Hidropónica",
+  //   precio: 1650,
+  //   categoria: "Verduras",
+  //   imagen: "/images/achicoria.png",
+  //   descuento: "10% OFF"
+  // },
   // {
   //   id: '11',
   //   nombre: "Hidropónica",
