@@ -37,7 +37,7 @@ export function RecipeCard({ receta }: RecipeCardProps) {
         <CardContent className="p-6">
           <div className="space-y-4">
             <div>
-              <h3 className="text-xl font-bold text-orange-800 mb-2 group-hover:text-orange-600 transition-colors">
+              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-orange-600 transition-colors">
                 {receta.nombre}
               </h3>
               <p className="text-white text-sm line-clamp-2">
