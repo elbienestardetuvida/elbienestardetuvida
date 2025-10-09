@@ -40,7 +40,7 @@ export function RecipeCard({ receta }: RecipeCardProps) {
               <h3 className="text-xl font-bold text-orange-800 mb-2 group-hover:text-orange-600 transition-colors">
                 {receta.nombre}
               </h3>
-              <p className="text-orange-600 text-sm line-clamp-2">
+              <p className="text-white text-sm line-clamp-2">
                 {receta.descripcion}
               </p>
             </div>
