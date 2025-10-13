@@ -42,6 +42,9 @@ export function Header() {
             <Link href="/recetas" className="nav-link-header text-white hover:text-green-500">
               Recetas
             </Link>
+            <Link href="/proveedores" className="nav-link-header text-white hover:text-green-500">
+              Proveedores
+            </Link>
           </nav>
 
           <div className="flex items-center space-x-4">
@@ -101,6 +104,13 @@ export function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 👩‍🍳 Recetas
+              </Link>
+              <Link
+                href="/proveedores"
+                className="nav-link-mobile px-4 py-2 text-white hover:text-green-500"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                🏢 Proveedores
               </Link>
             </nav>
           </div>
