@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ProductCard } from '@/components/product-card'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { fadeIn, staggerContainer, staggerItem, buttonBounce } from '@/lib/animations'
 
 const productosDestacados = [
   {
@@ -210,38 +212,72 @@ export function FeaturedProducts() {
   return (
     <section className="py-16">
       <div className="container mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <motion.h2 
+            className="text-3xl md:text-4xl font-bold text-white mb-4"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             🥬 Productos Destacados
-          </h2>
-          <p className="text-lg text-white/90 max-w-2xl mx-auto">
+          </motion.h2>
+          <motion.p 
+            className="text-lg text-white/90 max-w-2xl mx-auto"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
             Los mejores productos frescos con ofertas especiales
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Contenedor de scroll horizontal */}
-        <div className="relative mb-8">
+        <motion.div 
+          className="relative mb-8"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
           {/* Botón izquierdo */}
-          <Button
-            onClick={() => scroll('left')}
-            disabled={!canScrollLeft}
-            className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm text-white border-white/30 hover:bg-white/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 ${
-              canScrollLeft ? 'shadow-lg' : ''
-            }`}
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
           >
-            <ChevronLeft className="w-6 h-6" />
-          </Button>
+            <Button
+              onClick={() => scroll('left')}
+              disabled={!canScrollLeft}
+              className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm text-white border-white/30 hover:bg-white/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 ${
+                canScrollLeft ? 'shadow-lg' : ''
+              }`}
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </Button>
+          </motion.div>
 
           {/* Botón derecho */}
-          <Button
-            onClick={() => scroll('right')}
-            disabled={!canScrollRight}
-            className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm text-white border-white/30 hover:bg-white/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 ${
-              canScrollRight ? 'shadow-lg' : ''
-            }`}
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
           >
-            <ChevronRight className="w-6 h-6" />
-          </Button>
+            <Button
+              onClick={() => scroll('right')}
+              disabled={!canScrollRight}
+              className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm text-white border-white/30 hover:bg-white/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 ${
+                canScrollRight ? 'shadow-lg' : ''
+              }`}
+            >
+              <ChevronRight className="w-6 h-6" />
+            </Button>
+          </motion.div>
 
           {/* Contenedor de productos con scroll */}
           <div
@@ -254,10 +290,21 @@ export function FeaturedProducts() {
               
             }}
           >
-            {productosDestacados.map((producto) => (
-              <div key={producto.id} className="flex-shrink-0 w-72">
+            {productosDestacados.map((producto, index) => (
+              <motion.div 
+                key={producto.id} 
+                className="flex-shrink-0 w-72"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ 
+                  duration: 0.5, 
+                  delay: index * 0.1,
+                  ease: "easeOut" 
+                }}
+              >
                 <ProductCard producto={producto} />
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -265,25 +312,39 @@ export function FeaturedProducts() {
           <div className="flex justify-center mt-4">
             <div className="flex space-x-2">
               {Array.from({ length: Math.ceil(productosDestacados.length / 3) }).map((_, index) => (
-                <div
+                <motion.div
                   key={index}
                   className="w-2 h-2 rounded-full bg-white/30 transition-all duration-300"
+                  whileHover={{ scale: 1.5, backgroundColor: "rgba(255, 255, 255, 0.6)" }}
                 />
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="text-center">
+        <motion.div 
+          className="text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+        >
           <Link href="/ofertas">
-            <Button 
-              size="lg"
-              className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold px-8 py-4 rounded-full text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            <motion.div
+              variants={buttonBounce}
+              initial="rest"
+              whileHover="hover"
+              whileTap="tap"
             >
-              Ver Todas las Ofertas →
-            </Button>
+              <Button 
+                size="lg"
+                className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold px-8 py-4 rounded-full text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                Ver Todas las Ofertas →
+              </Button>
+            </motion.div>
           </Link>
-        </div>
+        </motion.div>
       </div>
 
       <style jsx>{`

@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge"
 import { ShoppingCart } from "lucide-react"
 import { useCart } from "@/contexts/cart-context"
 import { useToast } from "@/contexts/toast-context"
+import { motion } from "framer-motion"
+import { cardHover, buttonBounce } from "@/lib/animations"
 
 interface Producto {
   id: string
@@ -53,35 +55,84 @@ export function ProductCard({ producto }: ProductCardProps) {
   }
 
   return (
-    <Card className="glass-card hover:scale-105 transition-all duration-300 group">
-      <CardContent className="p-6">
-        <div className="relative mb-4">
-          <img
-            src={producto.imagen || "/placeholder.svg"}
-            alt={producto.nombre}
-            className="w-full h-48 object-cover rounded-lg"
-          />
-          {producto.descuento && (
-            <Badge className="absolute top-2 right-2 bg-red-500 text-white font-bold">{producto.descuento}</Badge>
-          )}
-        </div>
-
-        <div className="space-y-3">
-          <h3 className="text-xl font-bold text-white drop-shadow-sm">{producto.nombre}</h3>
-
-          <Badge className={`${getCategoryColor(producto.categoria)} font-medium`}>{producto.categoria}</Badge>
-
-          <div className="text-2xl font-bold text-white drop-shadow-sm">${producto.precio.toLocaleString()}/kg</div>
-
-          <Button
-            onClick={handleAddToCart}
-            className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-3 rounded-full transition-all duration-300 transform group-hover:scale-105"
+    <motion.div
+      variants={cardHover}
+      initial="rest"
+      whileHover="hover"
+      whileTap={{ scale: 0.98 }}
+    >
+      <Card className="glass-card transition-all duration-300 group overflow-hidden">
+        <CardContent className="p-6">
+          <motion.div 
+            className="relative mb-4 overflow-hidden rounded-lg"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3 }}
           >
-            <ShoppingCart className="w-4 h-4 mr-2" />
-            Agregar al Carrito
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+            <motion.img
+              src={producto.imagen || "/placeholder.svg"}
+              alt={producto.nombre}
+              className="w-full h-48 object-cover"
+              initial={{ scale: 1 }}
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.4 }}
+            />
+            {producto.descuento && (
+              <motion.div
+                initial={{ scale: 0, rotate: -45 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: "spring", stiffness: 260, damping: 20 }}
+              >
+                <Badge className="absolute top-2 right-2 bg-red-500 text-white font-bold">
+                  {producto.descuento}
+                </Badge>
+              </motion.div>
+            )}
+          </motion.div>
+
+          <motion.div 
+            className="space-y-3"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            <motion.h3 
+              className="text-xl font-bold text-white drop-shadow-sm"
+              whileHover={{ scale: 1.02, x: 5 }}
+              transition={{ duration: 0.2 }}
+            >
+              {producto.nombre}
+            </motion.h3>
+
+            <Badge className={`${getCategoryColor(producto.categoria)} font-medium`}>
+              {producto.categoria}
+            </Badge>
+
+            <motion.div 
+              className="text-2xl font-bold text-white drop-shadow-sm"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              ${producto.precio.toLocaleString()}/kg
+            </motion.div>
+
+            <motion.div
+              variants={buttonBounce}
+              initial="rest"
+              whileHover="hover"
+              whileTap="tap"
+            >
+              <Button
+                onClick={handleAddToCart}
+                className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold py-3 rounded-full transition-all duration-300"
+              >
+                <ShoppingCart className="w-4 h-4 mr-2" />
+                Agregar al Carrito
+              </Button>
+            </motion.div>
+          </motion.div>
+        </CardContent>
+      </Card>
+    </motion.div>
   )
 }
