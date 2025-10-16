@@ -29,20 +29,20 @@ export const OFERTAS_DISPONIBLES: SimpleOffer[] = [
     categoria: 'Verduras y Frutas'
   },
   {
-    id: 'meat-20',
+    id: 'meat-15',
     codigo: 'CARNIVORO',
-    descuento: 20,
+    descuento: 15,
     mensaje: '¡Para los amantes de la carne!',
-    descripcion: '20% OFF en todas las carnes',
+    descripcion: '15% OFF en todas las carnes',
     icono: '🥩',
     categoria: 'Carnes'
   },
   {
-    id: 'health-18',
+    id: 'health-15',
     codigo: 'SALUD',
-    descuento: 18,
+    descuento: 15,
     mensaje: '¡Tu bienestar nos importa!',
-    descripcion: '18% OFF en productos saludables',
+    descripcion: '15% OFF en productos saludables',
     icono: '💚',
     categoria: 'Productos Saludables'
   },
@@ -65,11 +65,11 @@ export const OFERTAS_DISPONIBLES: SimpleOffer[] = [
     categoria: 'Frutas'
   },
   {
-    id: 'family-25',
+    id: 'family-20',
     codigo: 'FAMILIA',
-    descuento: 25,
+    descuento: 20,
     mensaje: '¡Para toda la familia!',
-    descripcion: '25% OFF en compras mayores a $10000',
+    descripcion: '20% OFF en compras mayores a $10000',
     icono: '👨‍👩‍👧‍👦',
     categoria: 'Combo Familiar'
   }
