@@ -77,7 +77,7 @@ export default function SorteoPage() {
     }
   }, [sortBy])
 
-  // Fallback: trigger a one-off confetti burst imperatively on modal open
+  // Fallback: trigger a one-off confetti burst imperatively on modal open (softer)
   useEffect(() => {
     if (!winnerOpen) return
     const canvas = document.createElement('canvas')
@@ -100,13 +100,13 @@ export default function SorteoPage() {
     const colors = ['#63a940', '#f5811e', '#ffffff', '#ffd166']
     type P = { x: number; y: number; vx: number; vy: number; w: number; h: number; ang: number; angVel: number; c: string; a: number; tri: boolean }
     const particles: P[] = []
-    const count = Math.min(260, Math.floor((canvas.width + canvas.height) / 14))
+    const count = Math.min(180, Math.floor((canvas.width + canvas.height) / 20))
     for (let i = 0; i < count; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: -Math.random() * canvas.height * 0.2,
-        vx: (Math.random() - 0.5) * 2 * dpr,
-        vy: (Math.random() * 2 + 1) * dpr,
+        vx: (Math.random() - 0.5) * 1.5 * dpr,
+        vy: (Math.random() * 1.5 + 0.8) * dpr,
         w: (Math.random() * 6 + 3) * dpr,
         h: (Math.random() * 4 + 2) * dpr,
         ang: Math.random() * Math.PI,
@@ -118,7 +118,7 @@ export default function SorteoPage() {
     }
 
     const start = performance.now()
-    const duration = 3000
+    const duration = 4200
     let raf: number | null = null
     const frame = (now: number) => {
       const t = (now - start) / duration
@@ -126,8 +126,10 @@ export default function SorteoPage() {
       for (const p of particles) {
         p.x += p.vx
         p.y += p.vy
-        p.vy += 0.05 * dpr
-        p.a = Math.max(0, 1 - t)
+        p.vy += 0.025 * dpr
+        const fadeIn = Math.min(1, t * 3)
+        const fadeOut = Math.max(0, 1 - (t - 0.2))
+        p.a = Math.max(0, Math.min(fadeIn, fadeOut))
         ctx.globalAlpha = p.a
         ctx.fillStyle = p.c
         ctx.save()
@@ -200,12 +202,12 @@ export default function SorteoPage() {
     )
     const targetIndex = preferredIndex >= 0 ? preferredIndex : Math.floor(Math.random() * length)
     // Make a few full spins before landing exactly on targetIndex
-    const fullSpins = 2 + Math.floor(Math.random() * 3) // 2-4 spins
+    const fullSpins = 1 + Math.floor(Math.random() * 2) // 1-2 spins
     const stepsToTarget = (targetIndex - currentIndex + length) % length
     const totalSteps = fullSpins * length + stepsToTarget
 
-    const minDelay = 40 // fastest
-    const maxDelay = 260 // slowest near the end
+    const minDelay = 18 // faster
+    const maxDelay = 140 // faster near the end
 
     const easeOutQuad = (t: number) => 1 - (1 - t) * (1 - t)
 
@@ -482,7 +484,7 @@ function ConfettiOverlay({ active, intensity = 2 }: { active: boolean; intensity
   useEffect(() => {
     if (!active) return
     setVisible(true)
-    const durationMs = 4200
+    const durationMs = 5200
     const startedAt = performance.now()
     const canvas = canvasRef.current
     if (!canvas) return
@@ -509,13 +511,13 @@ function ConfettiOverlay({ active, intensity = 2 }: { active: boolean; intensity
     }
     const particles: Particle[] = []
 
-    const baseCount = Math.min(280, Math.floor((c.width + c.height) / 14))
+    const baseCount = Math.min(240, Math.floor((c.width + c.height) / 18))
     const count = Math.floor(baseCount * (intensity === 3 ? 1.6 : intensity === 2 ? 1.25 : 1))
 
     function pushBurst(ox: number, oy: number, dir: number, spread: number, portion: number) {
       const n = Math.max(1, Math.floor(count * portion))
       for (let i = 0; i < n; i++) {
-        const speed = (Math.random() * 3 + 2) * devicePixelRatio
+        const speed = (Math.random() * 2 + 1.4) * devicePixelRatio
         const angle = dir + (Math.random() - 0.5) * spread
         const vx = Math.cos(angle) * speed
         const vy = Math.sin(angle) * speed
@@ -544,11 +546,14 @@ function ConfettiOverlay({ active, intensity = 2 }: { active: boolean; intensity
       for (const p of particles) {
         p.x += p.vx
         p.y += p.vy
-        p.vy += 0.04 * devicePixelRatio
-        p.vx *= 0.995
+        p.vy += 0.02 * devicePixelRatio
+        p.vx *= 0.997
         p.angVel += (Math.random() - 0.5) * 0.002
         p.angle += p.angVel
-        p.a = Math.max(0, 1 - t)
+        // Fade in at the start, fade out at the end
+        const fadeIn = Math.min(1, t * 3)
+        const fadeOut = Math.max(0, 1 - (t - 0.2))
+        p.a = Math.max(0, Math.min(fadeIn, fadeOut))
         context.globalAlpha = p.a
         context.fillStyle = p.c
         context.save()
