@@ -1,7 +1,14 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
+import { Header } from '@/components/header'
+import { Footer } from '@/components/footer'
+import { WhatsAppButton } from '@/components/whatsapp-button'
+import { Cart } from '@/components/cart'
+import { ToastContainer } from '@/components/toast-container'
+import { FloatingCircles } from '@/components/floating-circles'
 import { motion, AnimatePresence } from 'framer-motion'
 
 import participantsData from '@/lib/sorteoclientes.json'
@@ -69,6 +76,90 @@ export default function SorteoPage() {
         return base.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     }
   }, [sortBy])
+
+  // Fallback: trigger a one-off confetti burst imperatively on modal open
+  useEffect(() => {
+    if (!winnerOpen) return
+    const canvas = document.createElement('canvas')
+    canvas.style.position = 'fixed'
+    canvas.style.inset = '0'
+    canvas.style.pointerEvents = 'none'
+    canvas.style.zIndex = '2147483647'
+    document.body.appendChild(canvas)
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+    const dpr = window.devicePixelRatio || 1
+    const resize = () => {
+      canvas.width = Math.floor(window.innerWidth * dpr)
+      canvas.height = Math.floor(window.innerHeight * dpr)
+    }
+    resize()
+    const onResize = () => resize()
+    window.addEventListener('resize', onResize)
+
+    const colors = ['#63a940', '#f5811e', '#ffffff', '#ffd166']
+    type P = { x: number; y: number; vx: number; vy: number; w: number; h: number; ang: number; angVel: number; c: string; a: number; tri: boolean }
+    const particles: P[] = []
+    const count = Math.min(260, Math.floor((canvas.width + canvas.height) / 14))
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: -Math.random() * canvas.height * 0.2,
+        vx: (Math.random() - 0.5) * 2 * dpr,
+        vy: (Math.random() * 2 + 1) * dpr,
+        w: (Math.random() * 6 + 3) * dpr,
+        h: (Math.random() * 4 + 2) * dpr,
+        ang: Math.random() * Math.PI,
+        angVel: (Math.random() - 0.5) * 0.25,
+        c: colors[Math.floor(Math.random() * colors.length)],
+        a: 1,
+        tri: Math.random() < 0.5,
+      })
+    }
+
+    const start = performance.now()
+    const duration = 3000
+    let raf: number | null = null
+    const frame = (now: number) => {
+      const t = (now - start) / duration
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      for (const p of particles) {
+        p.x += p.vx
+        p.y += p.vy
+        p.vy += 0.05 * dpr
+        p.a = Math.max(0, 1 - t)
+        ctx.globalAlpha = p.a
+        ctx.fillStyle = p.c
+        ctx.save()
+        ctx.translate(p.x, p.y)
+        ctx.rotate(p.ang)
+        if (!p.tri) {
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h)
+        } else {
+          const s = Math.max(p.w, p.h) * 1.2
+          ctx.beginPath()
+          ctx.moveTo(0, -s / 1.2)
+          ctx.lineTo(-s / 1.4, s / 1.6)
+          ctx.lineTo(s / 1.4, s / 1.6)
+          ctx.closePath()
+          ctx.fill()
+        }
+        ctx.restore()
+      }
+      if (t < 1) {
+        raf = requestAnimationFrame(frame)
+      } else {
+        cleanup()
+      }
+    }
+    const cleanup = () => {
+      if (raf) cancelAnimationFrame(raf)
+      window.removeEventListener('resize', onResize)
+      canvas.remove()
+    }
+    raf = requestAnimationFrame(frame)
+    return cleanup
+  }, [winnerOpen])
 
   // Keep currentIndex in range if sort changes
   useEffect(() => {
@@ -167,33 +258,35 @@ export default function SorteoPage() {
   const winner = winnerIndex != null ? participants[winnerIndex] : null
 
   return (
-    <div className="min-h-[calc(100dvh-0px)] bg-[radial-gradient(ellipse_at_top,rgba(99,169,64,0.12),transparent_60%),radial-gradient(ellipse_at_bottom,rgba(245,129,30,0.10),transparent_60%)]">
-      <div className="container py-8 md:py-10">
-        <header className="flex flex-col items-center gap-4 mb-6">
-          <Image
-            src="/images/elbienestardetuvidalogo.png"
-            alt="El Bienestar de Tu Vida"
-            width={120}
-            height={120}
-            priority
-          />
-          <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold gradient-text tracking-tight">
-              Sorteo de Clientes
-            </h1>
-            <p className="text-muted-foreground mt-1 text-sm">
-              {now.toLocaleDateString()} • Participantes: 153
+    <div className="relative min-h-screen bg-gradient-to-br from-green-400 via-orange-300 to-orange-500">
+      <div className="absolute inset-0 bg-black/50 z-0"></div>
+      <FloatingCircles />
+
+      <div className="relative z-10">
+        <Header />
+        <main className="container mx-auto px-4 py-8 md:py-10">
+          <div className="text-center mb-8">
+            <Image
+              src="/images/elbienestardetuvidalogo.png"
+              alt="El Bienestar de Tu Vida"
+              width={96}
+              height={96}
+              priority
+              className="mx-auto mb-3 drop-shadow-lg"
+            />
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">Sorteo de Clientes</h1>
+            <p className="text-white/90 drop-shadow-sm">
+              {now.toLocaleDateString()} • Participantes: {participants.length}
             </p>
           </div>
-        </header>
 
-        <section className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+          <section className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
           <div className="xl:col-span-2 order-2 xl:order-1">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
-                <label className="text-sm text-muted-foreground">Ordenar por</label>
+                <label className="text-sm text-white/90">Ordenar por</label>
                 <Select value={sortBy} onValueChange={(v) => setSortBy(v as SortBy)}>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-white/10 border-white/30 text-white hover:bg-white/20">
                     <SelectValue placeholder="Orden" />
                   </SelectTrigger>
                   <SelectContent>
@@ -211,14 +304,14 @@ export default function SorteoPage() {
               )}
             </div>
 
-            <div className="rounded-lg border overflow-hidden bg-card/60 backdrop-blur glass-card">
+            <div className="rounded-lg border overflow-hidden bg-white/10 backdrop-blur glass-card">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>#</TableHead>
-                    <TableHead>Nombre</TableHead>
-                    <TableHead>Usuario</TableHead>
-                    <TableHead>Fecha</TableHead>
+                    <TableHead className="text-white/90">#</TableHead>
+                    <TableHead className="text-white">Nombre</TableHead>
+                    <TableHead className="text-white">Usuario</TableHead>
+                    <TableHead className="text-white">Fecha</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -230,16 +323,16 @@ export default function SorteoPage() {
                         key={`${p.username}-${p.date}-${idx}`}
                         className={
                           isWin
-                            ? 'bg-green-100/70 dark:bg-green-900/20'
+                            ? 'bg-green-100/20'
                             : isCurrent
-                            ? 'bg-orange-100/60 dark:bg-orange-900/20'
+                            ? 'bg-orange-100/20'
                             : ''
                         }
                       >
-                        <TableCell className="font-mono text-xs">{idx + 1}</TableCell>
-                        <TableCell className="font-medium">{p.name}</TableCell>
-                        <TableCell className="text-muted-foreground">@{p.username}</TableCell>
-                        <TableCell className="text-muted-foreground">
+                        <TableCell className="font-mono text-xs text-white/80">{idx + 1}</TableCell>
+                        <TableCell className="font-medium text-white">{p.name}</TableCell>
+                        <TableCell className="text-white/90">@{p.username}</TableCell>
+                        <TableCell className="text-white/90">
                           {new Date(p.date).toLocaleString()}
                         </TableCell>
                       </TableRow>
@@ -294,9 +387,11 @@ export default function SorteoPage() {
 
             <CalloutPromo />
           </div>
-        </section>
+          </section>
 
-        <Dialog open={winnerOpen} onOpenChange={setWinnerOpen}>
+          <Dialog open={winnerOpen} onOpenChange={(open) => {
+          setWinnerOpen(open)
+        }}>
           <DialogContent className="sm:max-w-xl">
             <DialogHeader>
               <DialogTitle className="text-center text-3xl">¡Tenemos un ganador! 🎉</DialogTitle>
@@ -307,7 +402,7 @@ export default function SorteoPage() {
 
             <div className="relative">
               <WinnerCard participant={winner ?? undefined} />
-              <ConfettiOverlay active={Boolean(winner)} />
+              <ConfettiOverlay active={winnerOpen} intensity={3} />
             </div>
 
             <DialogFooter>
@@ -321,7 +416,12 @@ export default function SorteoPage() {
               </div>
             </DialogFooter>
           </DialogContent>
-        </Dialog>
+          </Dialog>
+        </main>
+        <Footer />
+        <WhatsAppButton />
+        <Cart />
+        <ToastContainer />
       </div>
     </div>
   )
@@ -330,12 +430,21 @@ export default function SorteoPage() {
 function WinnerCard({ participant }: { participant?: Participant }) {
   if (!participant) return null
   return (
-    <div className="w-full rounded-2xl border p-6 md:p-8 bg-white/70 dark:bg-white/5 text-center">
-      <div className="text-sm text-muted-foreground">Ganador</div>
-      <div className="text-3xl md:text-4xl font-bold tracking-tight gradient-text">
-        {participant.name}
+    <div className="w-full rounded-2xl border p-6 md:p-8 bg-white/70 dark:bg-white/5 text-center relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(99,169,64,0.12),transparent_60%)]" />
+      <div className="relative">
+        <div className="text-sm text-muted-foreground">Ganador</div>
+        <motion.div
+          key={participant.username}
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: [1.05, 1], opacity: 1 }}
+          transition={{ duration: 0.6, type: 'spring', stiffness: 220, damping: 18 }}
+          className="text-3xl md:text-4xl font-bold tracking-tight gradient-text drop-shadow"
+        >
+          {participant.name}
+        </motion.div>
+        <div className="text-muted-foreground">@{participant.username}</div>
       </div>
-      <div className="text-muted-foreground">@{participant.username}</div>
     </div>
   )
 }
@@ -365,7 +474,7 @@ function CalloutPromo() {
   )
 }
 
-function ConfettiOverlay({ active }: { active: boolean }) {
+function ConfettiOverlay({ active, intensity = 2 }: { active: boolean; intensity?: 1 | 2 | 3 }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const rafRef = useRef<number | null>(null)
   const [visible, setVisible] = useState(false)
@@ -373,7 +482,7 @@ function ConfettiOverlay({ active }: { active: boolean }) {
   useEffect(() => {
     if (!active) return
     setVisible(true)
-    const durationMs = 2500
+    const durationMs = 4200
     const startedAt = performance.now()
     const canvas = canvasRef.current
     if (!canvas) return
@@ -391,37 +500,77 @@ function ConfettiOverlay({ active }: { active: boolean }) {
     const onResize = () => resize()
     window.addEventListener('resize', onResize)
 
-    const colors = ['#63a940', '#f5811e', '#ffffff']
-    type Particle = { x: number; y: number; vx: number; vy: number; r: number; c: string; a: number; s: number }
+    const colors = ['#63a940', '#f5811e', '#ffffff', '#ffd166']
+    type Shape = 'rect' | 'triangle'
+    type Particle = {
+      x: number; y: number; vx: number; vy: number;
+      r: number; w: number; h: number; angle: number; angVel: number;
+      c: string; a: number; s: number; shape: Shape
+    }
     const particles: Particle[] = []
 
-    const count = Math.min(200, Math.floor((c.width + c.height) / 18))
-    for (let i = 0; i < count; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: -Math.random() * canvas.height * 0.3,
-        vx: (Math.random() - 0.5) * 1.5,
-        vy: Math.random() * 2 + 1,
-        r: Math.random() * 6 + 3,
-        c: colors[Math.floor(Math.random() * colors.length)],
-        a: 1,
-        s: Math.random() * 0.06 + 0.02,
-      })
+    const baseCount = Math.min(280, Math.floor((c.width + c.height) / 14))
+    const count = Math.floor(baseCount * (intensity === 3 ? 1.6 : intensity === 2 ? 1.25 : 1))
+
+    function pushBurst(ox: number, oy: number, dir: number, spread: number, portion: number) {
+      const n = Math.max(1, Math.floor(count * portion))
+      for (let i = 0; i < n; i++) {
+        const speed = (Math.random() * 3 + 2) * devicePixelRatio
+        const angle = dir + (Math.random() - 0.5) * spread
+        const vx = Math.cos(angle) * speed
+        const vy = Math.sin(angle) * speed
+        const shape: Shape = Math.random() < 0.5 ? 'rect' : 'triangle'
+        const size = Math.random() * 6 + 3
+        particles.push({
+          x: ox, y: oy,
+          vx, vy: vy - Math.random() * 1.2 * devicePixelRatio,
+          r: size, w: size + 4, h: size + 2,
+          angle: Math.random() * Math.PI, angVel: (Math.random() - 0.5) * 0.25,
+          c: colors[Math.floor(Math.random() * colors.length)],
+          a: 1, s: Math.random() * 0.06 + 0.02,
+          shape,
+        })
+      }
     }
+
+    // Three celebratory bursts
+    pushBurst(c.width * 0.05, c.height * 0.35, 0, Math.PI / 2.2, 0.36) // left → right
+    pushBurst(c.width * 0.95, c.height * 0.35, Math.PI, Math.PI / 2.2, 0.36) // right → left
+    pushBurst(c.width * 0.50, c.height * 0.05, Math.PI / 2, Math.PI / 1.6, 0.28) // top → down
 
     function frame(now: number) {
       const t = (now - startedAt) / durationMs
       context.clearRect(0, 0, c.width, c.height)
       for (const p of particles) {
-        p.x += p.vx * devicePixelRatio
-        p.y += p.vy * devicePixelRatio
-        p.vy += 0.02 * devicePixelRatio
+        p.x += p.vx
+        p.y += p.vy
+        p.vy += 0.04 * devicePixelRatio
+        p.vx *= 0.995
+        p.angVel += (Math.random() - 0.5) * 0.002
+        p.angle += p.angVel
         p.a = Math.max(0, 1 - t)
         context.globalAlpha = p.a
         context.fillStyle = p.c
-        context.beginPath()
-        context.arc(p.x, p.y, p.r * devicePixelRatio, 0, Math.PI * 2)
-        context.fill()
+        context.save()
+        context.translate(p.x, p.y)
+        context.rotate(p.angle)
+        if (p.shape === 'rect') {
+          context.fillRect(
+            -((p.w * devicePixelRatio) / 2),
+            -((p.h * devicePixelRatio) / 2),
+            p.w * devicePixelRatio,
+            p.h * devicePixelRatio,
+          )
+        } else {
+          context.beginPath()
+          const s = p.r * 1.6 * devicePixelRatio
+          context.moveTo(0, -s / 1.2)
+          context.lineTo(-s / 1.4, s / 1.6)
+          context.lineTo(s / 1.4, s / 1.6)
+          context.closePath()
+          context.fill()
+        }
+        context.restore()
       }
       if (t < 1) {
         rafRef.current = requestAnimationFrame(frame)
@@ -441,13 +590,12 @@ function ConfettiOverlay({ active }: { active: boolean }) {
 
   if (!visible) return null
 
-  return (
-    <canvas
-      ref={canvasRef}
-      className="pointer-events-none fixed inset-0 z-[60]"
-      aria-hidden
-    />
+  return createPortal(
+    <canvas ref={canvasRef} className="pointer-events-none fixed inset-0 z-[9999]" aria-hidden />,
+    document.body,
   )
 }
+
+// (Eliminado: EmojiCelebrationPortal) — se evitó overlay de emojis sobre el ganador
 
 
