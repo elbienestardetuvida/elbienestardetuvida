@@ -269,14 +269,14 @@ export default function SorteoPage() {
             <Image
               src="/images/elbienestardetuvidalogo.png"
               alt="El Bienestar de Tu Vida"
-              width={96}
-              height={96}
+              width={150}
+              height={150}
               priority
               className="mx-auto mb-3 drop-shadow-lg"
             />
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">Sorteo de Clientes</h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">Sorteo Especial para el Dia de la Madre</h1>
             <p className="text-white/90 drop-shadow-sm">
-              {now.toLocaleDateString()} • Participantes: {participants.length}
+              {now.toLocaleDateString()} • Participantes: 154
             </p>
           </div>
 
@@ -297,11 +297,11 @@ export default function SorteoPage() {
                   </SelectContent>
                 </Select>
               </div>
-              {savedWinner && (
+              {/* {savedWinner && (
                 <div className="text-xs md:text-sm text-muted-foreground">
                   Último ganador guardado: <span className="font-medium text-foreground">{savedWinner.winner.name}</span>
                 </div>
-              )}
+              )} */}
             </div>
 
             <div className="rounded-lg border overflow-hidden bg-white/10 backdrop-blur glass-card">
@@ -345,7 +345,7 @@ export default function SorteoPage() {
 
           <div className="order-1 xl:order-2 flex flex-col gap-4">
             <div className="rounded-2xl border glass-card p-5 md:p-6 text-center">
-              <div className="text-sm text-muted-foreground mb-2">Participante actual</div>
+              <div className="text-sm text-white mb-2">Participante actual</div>
               <div className="relative overflow-hidden rounded-xl border bg-white/60 dark:bg-white/5">
                 <div className="p-6 md:p-8">
                   <AnimatePresence mode="popLayout">
@@ -465,9 +465,9 @@ function ShimmerBar() {
 function CalloutPromo() {
   return (
     <div className="rounded-2xl border glass-card p-5">
-      <div className="text-sm text-muted-foreground mb-1">Próximos sorteos</div>
-      <div className="text-lg font-semibold">¡Seguí nuestras promos y novedades!</div>
-      <p className="text-sm text-muted-foreground mt-1">
+      <div className="text-sm text-white mb-1">Próximos sorteos</div>
+      <div className="text-lg font-semibold text-white">¡Seguí nuestras promos y novedades!</div>
+      <p className="text-sm text-white mt-1">
         Seguinos en nuestras redes para enterarte de nuevos sorteos y ofertas.
       </p>
     </div>
