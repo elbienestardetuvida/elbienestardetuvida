@@ -1,3 +1,10 @@
+import { notFound } from 'next/navigation'
+
+// Página de sorteo deshabilitada temporalmente
+export default function SorteoPage() {
+  notFound()
+}
+
 // 'use client'
 
 // import { useEffect, useMemo, useRef, useState } from 'react'

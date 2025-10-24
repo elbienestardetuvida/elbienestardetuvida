@@ -87,7 +87,7 @@ const ofertas = [
     nombre: "Brócoli (unidad)",
     precio: 2500,
     categoria: "Verdulería",
-    imagen: "/iamges/brocoli.pnh",
+    imagen: "/images/brocoli.png",
     descuento: null,
   },
   {
