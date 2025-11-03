@@ -147,7 +147,7 @@ export default function OfertasPage() {
               <div className="text-center mb-8">
                 <div className="inline-block bg-white/20 backdrop-blur-sm px-8 py-3 rounded-full mb-4 border-2 border-white/30">
                   <h2 className="text-3xl md:text-5xl font-black text-white drop-shadow-lg tracking-wider">
-                    🔥 OFERTA IMPERDIBLE 🔥
+                    OFERTA IMPERDIBLE 🔥
                   </h2>
                 </div>
                 <p className="text-2xl md:text-3xl font-bold text-white drop-shadow-lg">
