@@ -13,7 +13,7 @@ const ofertas = [
     nombre: "1KG Falda Económica",
     precio: 5000,
     categoria: "Carnicería",
-    imagen: "/images/falda.png",
+    imagen: "/images/pulpadecerdo.png",
     descuento: null,
   },
   {
